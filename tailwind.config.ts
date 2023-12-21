@@ -16,11 +16,11 @@ const config: Config = {
         "primary-purple": "#a66cff",
         "primary-white": "#ebe9e9",
       },
-      fontFamily : {
-        Oswald: ['var(--font-Oswald)'],
-      }
+      fontFamily: {
+        Oswald: ["var(--font-Oswald)"],
+      },
     },
   },
-  plugins: [],
+  plugins: []
 };
 export default config;

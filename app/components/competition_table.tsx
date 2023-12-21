@@ -8,8 +8,18 @@ import { ConfigProvider } from "antd";
 interface Props {
   standings: StandingsTeam[];
 }
+
+interface TeamInfo {
+  key: number; // Assuming `index` is a number
+  played: number;
+  rank: number;
+  goalsFor: number;
+  points: number;
+  team: React.ReactNode; // You might need to adjust the type based on the actual React component
+}
+
 function Competition_table(props: Props) {
-  const dataSource = props.standings.map((team, index) => {
+  const dataSource: TeamInfo[] = props.standings.map((team, index) => {
     return {
       key: index,
       played: team.all.played,
@@ -30,7 +40,7 @@ function Competition_table(props: Props) {
       ),
     };
   });
-  const columns = [
+  const columns: ColumnsType<TeamInfo> = [
     {
       title: "Rank",
       dataIndex: "rank",

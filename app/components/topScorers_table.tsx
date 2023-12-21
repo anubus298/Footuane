@@ -1,18 +1,27 @@
-"use client";
-import type { ColumnsType } from "antd/es/table";
+"use client"
 import Image from "next/image";
 import Table from "antd/es/table";
 import { ConfigProvider } from "antd";
 import { Player, Statistics } from "../lib/types/topScorers";
-("use client");
+import type { ColumnsType } from 'antd/es/table';
 interface Props {
   topScorers: {
     player: Player;
     statistics: Statistics[];
   }[];
 }
+interface PlayerInfo {
+  key: number; 
+  player: React.ReactNode;
+  goals: number;
+  team: React.ReactNode;
+  nationality: string;
+  assists: number;
+}
+
+
 function TopScorers_table(props: Props) {
-  const dataSource = props.topScorers.map((player, index) => {
+  const dataSource : PlayerInfo[] = props.topScorers.map((player, index) => {
     return {
       key: index * 12 + 4546456,
       player: (
@@ -42,7 +51,7 @@ function TopScorers_table(props: Props) {
       assists: player.statistics[0].goals.assists,
     };
   });
-  const columns = [
+  const columns : ColumnsType<PlayerInfo> = [
     {
       title: "Player",
       dataIndex: "player",

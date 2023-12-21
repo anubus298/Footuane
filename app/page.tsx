@@ -115,7 +115,7 @@ function SortByImportance(fixtures: FixturesData[]) {
   });
   return sorted;
 }
-export function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
+ function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
   let mimic = [...input];
   mimic = mimic.filter((item) => {
     return item.league.id !== 383;
