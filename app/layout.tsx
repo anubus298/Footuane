@@ -11,7 +11,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 const inter = Oswald({
   subsets: ["latin"],
-  weight: ["200","200", "300", "400", "500", "600", "700"],
+  weight: ["200", "300", "400", "500", "600", "700"],
   variable: "--font-Oswald",
 });
 config.autoAddCss = false;
