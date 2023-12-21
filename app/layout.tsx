@@ -6,10 +6,12 @@ import Navbar_main from "./navbar/navbar_main";
 import StyledComponentsRegistry from "./lib/AntdRegistry";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 const inter = Oswald({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["200","200", "300", "400", "500", "600", "700"],
   variable: "--font-Oswald",
 });
 config.autoAddCss = false;
@@ -28,13 +30,6 @@ export default function RootLayout({
       <ConfigProvider
         theme={{
           components: {
-            Table: {
-              cellPaddingBlock: 4,
-              cellPaddingInlineMD: 4,
-              headerBg: "#a66cff",
-              headerColor: "#ffffff",
-              rowSelectedBg: "#a66cff",
-            },
           },
           token: {
             fontFamily: "var(--font-Oswald)",
@@ -42,7 +37,7 @@ export default function RootLayout({
         }}
       >
         <body
-          className={inter.className + " bg-primary-white " + inter.variable}
+          className={inter.className + " md:bg-fixed " + inter.variable}
         >
           <StyledComponentsRegistry>
             <Navbar_main />

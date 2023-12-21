@@ -10,7 +10,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "primary-lime-green": "#d0f500",
+        "primary-lime-green": "#181818",
+        "primary-second": "#defe54",
+        "primary-bg": "#311D3F",
         "primary-purple": "#a66cff",
         "primary-white": "#ebe9e9",
       },

@@ -1,18 +1,27 @@
 export const leaguesIds = {
-  la_liga: 140,
-  premier: 39,
-  bundesliga: 78,
-  serie_a: 135,
-  ligue_1: 61,
-  champions_league: 2,
-  europa_league: 3,
-  conferce_league: 848,
-  pro_league: 307,
-  botola_pro: 200,
+  "UEFA Champions League": 2,
+  "FIFA World Cup": 1,
+  "English Premier League": 39,
+  "La Liga (Spain)": 140,
+  "Bundesliga (Germany)": 78,
+  "Serie A (Italy)": 135,
+  "Ligue 1 (France)": 61,
+  "Pro League (ksa)": 307,
+  "Copa Libertadores": 5,
+  "UEFA Europa League": 3,
+  "Copa del Rey (Spain)": 143,
+  "DFB-Pokal (Germany)": 81,
+  "FA Cup (England)": 45,
+  "Coppa Italia (Italy)": 137,
+  "Brasileirão Serie A (Brazil)": 71,
+  "Eredivisie (Netherlands)": 88,
 };
 
 export const statusShorts = {
-  in_play: "1H-2H-ET-BT-P-SUSP-INT-LIVE",
+  in_play: "1H-2H-ET-BT-SUSP-INT-LIVE",
+  first_half: "HT",
+  break_time: "BT",
   scheduled: "TBD-NS",
-  finished : "HT-FT-AET-PEN"
+  finished: "FT-AET-PEN",
+  penalty : "P"
 };

@@ -1,32 +1,71 @@
 "use client";
-import Image from "next/image";
 import Games_table from "../components/games_table";
-import { fixtureResponse } from "../lib/types/fixture";
+import Main_img from "../components/main_img";
+import { fixtureResponse, FixturesData } from "../lib/types/fixture";
+import { StandingsResponse } from "../lib/types/standings";
+import { TopScorersResponse } from "../lib/types/topScorers";
+
 interface Props {
-  fixtures_sl: fixtureResponse;
-  fixtures_pl: fixtureResponse;
+  standings: StandingsResponse;
   live: fixtureResponse;
-  test?: any;
+  fixtures: fixtureResponse;
+  fixtures_upcoming: fixtureResponse;
+  topScorers: TopScorersResponse;
 }
 
 function Main(props: Props) {
   return (
     <div className="w-full">
-      <Image
-        src={"/1280cover.png"}
-        quality={100}
-        alt="main cover of the page"
-        className="h-auto"
-        width={1280}
-        height={720}
+      <Main_img />
+      <Games_table
+        direction="left"
+        fixtures={props.live.response}
+        standings={props.standings.response[0].league.standings[0]}
+        type="live"
       />
       <Games_table
-        fixtures={props.live.response}
-        type="La Liga"
+        direction="right"
+        fixtures={props.fixtures_upcoming.response}
+        type="Upcoming"
+        topScorers={props.topScorers.response}
       />
-      <Games_table fixtures={props.fixtures_sl.response} type="La Liga" />
+      <Games_table
+        direction="left"
+        fixtures={props.fixtures.response}
+        type="Past"
+      />
     </div>
   );
 }
 
+function divideByTime(input: FixturesData[]): DivideByTime {
+  let past: FixturesData[] = [],
+    upcoming: FixturesData[] = [];
+  const now = new Date();
+  const cleaned = RemoveShitLeague(input);
+  cleaned.forEach((item) => {
+    let date = new Date(item.fixture.date);
+    if (now.getTime() - date.getTime() >= 0) {
+      upcoming.push(item);
+    } else {
+      past.push(item);
+    }
+  });
+  return {
+    upcoming: past,
+    past: upcoming,
+  };
+}
+
+interface DivideByTime {
+  upcoming: FixturesData[];
+  past: FixturesData[];
+}
+function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
+  let mimic = [...input];
+  mimic = mimic.filter((item) => {
+    return item.league.id !== 383;
+  });
+  return mimic;
+}
 export default Main;

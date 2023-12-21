@@ -1,31 +1,24 @@
 import Main from "./main/main";
-import { ApiResponse, fixtureResponse } from "./lib/types/fixture";
+import { fixtureResponse, FixturesData } from "./lib/types/fixture";
 import { leaguesIds, statusShorts } from "./lib/api/ids";
+import { StandingsResponse } from "./lib/types/standings";
+import { TopScorersResponse } from "./lib/types/topScorers";
 
 export default async function Home() {
   const API_KEY: string = process.env?.API_KEY || "";
   let myHeaders = new Headers();
   myHeaders.append("x-apisports-key", API_KEY);
-  async function GetFixturesToday(
-    status: string,
-    id: number,
-    from: string,
-    to: string
-  ) {
-    const res = await fetch(
-      process.env.API_URL +
-        `/fixtures?status=${status}&league=${id}&season=${
-          from.split("-")[0]
-        }&from=${from}&to=${to}`,
-      {
-        method: "GET",
-        headers: myHeaders,
-        next: {
-          revalidate: 3600,
-        },
-      }
-    );
-    let data = await res.json();
+  async function GetFixtures(from: string) {
+    const res = await fetch(process.env.API_URL + `/fixtures?date=${from}`, {
+      method: "GET",
+      headers: myHeaders,
+      next: {
+        revalidate: 3600,
+      },
+    });
+    let data: fixtureResponse = await res.json();
+    data.response = RemoveLiveMatches(data.response);
+    data.response = SortByImportance(data.response);
     return data;
   }
   async function GetLive() {
@@ -36,28 +29,59 @@ export default async function Home() {
         revalidate: 3600,
       },
     });
-    let data = await res.json();
+    let data: fixtureResponse = await res.json();
+    data.response = SortByImportance(data.response);
+    data.response = RemoveShitLeague(data.response);
     return data;
   }
-  const fixtures_sl: fixtureResponse = await GetFixturesToday(
-    statusShorts.in_play + statusShorts.scheduled,
-    140,
-    GetDate(1, 1).yesterday,
-    GetDate(1, 1).tomorrow
+  async function GetStandings() {
+    const res = await fetch(
+      process.env.API_URL +
+        `/standings?league=39&season=${GetDate(1, 1).tomorrow.split("-")[0]}`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        next: {
+          revalidate: 3600 * 24,
+        },
+      }
+    );
+    let data: StandingsResponse = await res.json();
+    return data;
+  }
+  async function GetTopScorers(id: number) {
+    const res = await fetch(
+      process.env.API_URL +
+        `//players/topscorers?league=${id}&season=${
+          GetDate(1, 1).tomorrow.split("-")[0]
+        }`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        next: {
+          revalidate: 3600 * 24,
+        },
+      }
+    );
+    let data: TopScorersResponse = await res.json();
+    return data;
+  }
+  const fixtures_upcoming: fixtureResponse = await GetFixtures(
+    GetDate(0, 0).yesterday
   );
-  const fixtures_pl: fixtureResponse = await GetFixturesToday(
-    statusShorts.finished,
-    39,
-    GetDate(2, 2).yesterday,
-    GetDate(2, 2).tomorrow
+  const fixtures_past: fixtureResponse = await GetFixtures(
+    GetDate(1, 1).yesterday
   );
-  const fixtures_live: fixtureResponse = await GetLive();
-
+  let fixtures_live: fixtureResponse = await GetLive();
+  const standings_pl: StandingsResponse = await GetStandings();
+  const topScorers: TopScorersResponse = await GetTopScorers(140);
   return (
     <Main
       live={fixtures_live}
-      fixtures_pl={fixtures_pl}
-      fixtures_sl={fixtures_sl}
+      fixtures_upcoming={fixtures_upcoming}
+      topScorers={topScorers}
+      fixtures={fixtures_past}
+      standings={standings_pl}
     />
   );
 }
@@ -80,4 +104,37 @@ function GetDate(minus: number, plus: number) {
     tomorrow: `${yearT}-${monthT}-${dayT}`,
     yesterday: `${yearY}-${monthY}-${dayY}`,
   };
+}
+
+function SortByImportance(fixtures: FixturesData[]) {
+  const filtered = fixtures.filter((item) => {
+    return Object.values(leaguesIds).includes(item.league.id);
+  });
+  const sorted = filtered.sort((a, b) => {
+    return a.league.id - b.league.id;
+  });
+  return sorted;
+}
+export function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
+  let mimic = [...input];
+  mimic = mimic.filter((item) => {
+    return item.league.id !== 383;
+  });
+  return mimic;
+}
+
+function RemoveLiveMatches(input: FixturesData[]): FixturesData[] {
+  const arrayCatcher = (
+    statusShorts.in_play +
+    "-" +
+    statusShorts.first_half +
+    "-" +
+    statusShorts.break_time +
+    "-" +
+    statusShorts.penalty
+  ).split("-");
+  const filtered = input.filter((item) => {
+    return !arrayCatcher.includes(item.fixture.status.short);
+  });
+  return filtered;
 }

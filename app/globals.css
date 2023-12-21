@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background: radial-gradient(
+    100% 100% at 50% 100%,
+    #defe54 0%,
+    #1c200a 0.01%,
+    #181818 96.62%
+  ) !important;
+}
+
+.selected-nav {
+  @apply before:h-2 before:w-full before:bg-primary-second before:content-[''] before:absolute  before:top-11 text-primary-second;
+}
+.place-center {
+  @apply justify-center items-center
+}
+
+.selection\:text-primary-white ::selection {
+  color :#defe54 !important
+}
