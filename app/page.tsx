@@ -5,7 +5,7 @@ import { StandingsResponse } from "./lib/types/standings";
 import { TopScorersResponse } from "./lib/types/topScorers";
 
 export default async function Home() {
-  const API_KEY: string = process.env.API_KEY;
+  const API_KEY : string = process.env.API_KEY!;
   let myHeaders = new Headers();
   myHeaders.append("x-apisports-key", API_KEY);
   async function GetFixtures(from: string) {
