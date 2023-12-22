@@ -12,7 +12,7 @@ body {
 }
 
 .selected-nav {
-  @apply before:h-2 before:w-full before:bg-primary-second before:content-[''] before:absolute  before:top-11 text-primary-second;
+  @apply before:h-2 before:w-full before:bg-primary-second before:content-[''] before:absolute  before:top-12 text-primary-second;
 }
 .place-center {
   @apply justify-center items-center

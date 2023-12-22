@@ -1,7 +1,7 @@
 "use client";
 import Games_table from "../components/games_table";
 import Main_img from "../components/main_img";
-import { fixtureResponse, FixturesData } from "../lib/types/fixture";
+import { fixtureResponse, FixturesData } from "../lib/types/fixture/fixture";
 import { StandingsResponse } from "../lib/types/standings";
 import { TopScorersResponse } from "../lib/types/topScorers";
 
@@ -20,7 +20,7 @@ function Main(props: Props) {
       <Games_table
         direction="left"
         fixtures={props.live.response}
-        standings={props.standings.response[0].league.standings[0]}
+        
         type="live"
       />
       <Games_table

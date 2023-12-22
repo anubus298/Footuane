@@ -1,11 +1,11 @@
 import Main from "./main/main";
-import { fixtureResponse, FixturesData } from "./lib/types/fixture";
+import { fixtureResponse, FixturesData } from "./lib/types/fixture/fixture";
 import { leaguesIds, statusShorts } from "./lib/api/ids";
 import { StandingsResponse } from "./lib/types/standings";
 import { TopScorersResponse } from "./lib/types/topScorers";
 
 export default async function Home() {
-  const API_KEY : string = process.env.API_KEY!;
+  const API_KEY: string = process.env.API_KEY!;
   let myHeaders = new Headers();
   myHeaders.append("x-apisports-key", API_KEY);
   async function GetFixtures(from: string) {
@@ -30,19 +30,20 @@ export default async function Home() {
       },
     });
     let data: fixtureResponse = await res.json();
-    data.response = SortByImportance(data.response);
     data.response = RemoveShitLeague(data.response);
     return data;
   }
-  async function GetStandings() {
+  async function GetStandings(id: number) {
     const res = await fetch(
       process.env.API_URL +
-        `/standings?league=39&season=${GetDate(1, 1).tomorrow.split("-")[0]}`,
+        `/standings?league=${id}&season=${
+          GetDate(1, 1).tomorrow.split("-")[0]
+        }`,
       {
         method: "GET",
         headers: myHeaders,
         next: {
-          revalidate: 3600 * 24,
+          revalidate: 86400,
         },
       }
     );
@@ -59,7 +60,7 @@ export default async function Home() {
         method: "GET",
         headers: myHeaders,
         next: {
-          revalidate: 3600 * 24,
+          revalidate: 86400,
         },
       }
     );
@@ -72,8 +73,8 @@ export default async function Home() {
   const fixtures_past: fixtureResponse = await GetFixtures(
     GetDate(1, 1).yesterday
   );
-  let fixtures_live: fixtureResponse = await GetLive();
-  const standings_pl: StandingsResponse = await GetStandings();
+  const fixtures_live: fixtureResponse = await GetLive();
+  const standings: StandingsResponse = await GetStandings(140);
   const topScorers: TopScorersResponse = await GetTopScorers(140);
   return (
     <Main
@@ -81,10 +82,12 @@ export default async function Home() {
       fixtures_upcoming={fixtures_upcoming}
       topScorers={topScorers}
       fixtures={fixtures_past}
-      standings={standings_pl}
+      standings={standings}
     />
   );
 }
+
+//*helping function
 
 function GetDate(minus: number, plus: number) {
   const tomorrowDate = new Date();

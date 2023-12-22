@@ -1,4 +1,4 @@
-export const leaguesIds = {
+export const leaguesIds: Record<string, number> = {
   "UEFA Champions League": 2,
   "FIFA World Cup": 1,
   "English Premier League": 39,
@@ -17,11 +17,11 @@ export const leaguesIds = {
   "Eredivisie (Netherlands)": 88,
 };
 
-export const statusShorts = {
+export const statusShorts: Record<string, string> = {
   in_play: "1H-2H-ET-BT-SUSP-INT-LIVE",
   first_half: "HT",
   break_time: "BT",
   scheduled: "TBD-NS",
   finished: "FT-AET-PEN",
-  penalty : "P"
+  penalty: "P",
 };

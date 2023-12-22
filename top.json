@@ -1,203 +1,86 @@
 {
-  "get": "players/topscorers",
+  "get": "fixtures/statistics",
   "parameters": {
-    "league": "39",
-    "season": "2023"
+    "team": "463",
+    "fixture": "215662"
   },
   "errors": [],
-  "results": 20,
+  "results": 1,
   "paging": {
-    "current": 0,
+    "current": 1,
     "total": 1
   },
   "response": [
     {
-      "player": {
-        "id": 1100,
-        "name": "E. Haaland",
-        "firstname": "Erling",
-        "lastname": "Braut Haaland",
-        "age": 23,
-        "birth": {
-          "date": "2000-07-21",
-          "place": "Leeds",
-          "country": "England"
-        },
-        "nationality": "Norway",
-        "height": "194 cm",
-        "weight": "88 kg",
-        "injured": false,
-        "photo": "https://media-4.api-sports.io/football/players/1100.png"
+      "team": {
+        "id": 463,
+        "name": "Aldosivi",
+        "logo": "https://media.api-sports.io/football/teams/463.png"
       },
       "statistics": [
         {
-          "team": {
-            "id": 50,
-            "name": "Manchester City",
-            "logo": "https://media-4.api-sports.io/football/teams/50.png"
-          },
-          "league": {
-            "id": 39,
-            "name": "Premier League",
-            "country": "England",
-            "logo": "https://media-4.api-sports.io/football/leagues/39.png",
-            "flag": "https://media-4.api-sports.io/flags/gb.svg",
-            "season": 2023
-          },
-          "games": {
-            "appearences": 15,
-            "lineups": 15,
-            "minutes": 1296,
-            "number": null,
-            "position": "Attacker",
-            "rating": "7.493333",
-            "captain": false
-          },
-          "substitutes": {
-            "in": 0,
-            "out": 3,
-            "bench": 0
-          },
-          "shots": {
-            "total": 49,
-            "on": 31
-          },
-          "goals": {
-            "total": 14,
-            "conceded": 0,
-            "assists": 4,
-            "saves": null
-          },
-          "passes": {
-            "total": 168,
-            "key": 16,
-            "accuracy": 8
-          },
-          "tackles": {
-            "total": 3,
-            "blocks": 1,
-            "interceptions": 1
-          },
-          "duels": {
-            "total": 88,
-            "won": 44
-          },
-          "dribbles": {
-            "attempts": 11,
-            "success": 6,
-            "past": null
-          },
-          "fouls": {
-            "drawn": 16,
-            "committed": 10
-          },
-          "cards": {
-            "yellow": 1,
-            "yellowred": 0,
-            "red": 0
-          },
-          "penalty": {
-            "won": null,
-            "commited": null,
-            "scored": 3,
-            "missed": 1,
-            "saved": null
-          }
-        }
-      ]
-    },
-    {
-      "player": {
-        "id": 306,
-        "name": "Mohamed Salah",
-        "firstname": "Mohamed",
-        "lastname": "Salah Hamed Mahrous Ghaly",
-        "age": 31,
-        "birth": {
-          "date": "1992-06-15",
-          "place": "Muḥāfaẓat al Gharbiyya",
-          "country": "Egypt"
+          "type": "Shots on Goal",
+          "value": 3
         },
-        "nationality": "Egypt",
-        "height": "175 cm",
-        "weight": "71 kg",
-        "injured": false,
-        "photo": "https://media-4.api-sports.io/football/players/306.png"
-      },
-      "statistics": [
         {
-          "team": {
-            "id": 40,
-            "name": "Liverpool",
-            "logo": "https://media-4.api-sports.io/football/teams/40.png"
-          },
-          "league": {
-            "id": 39,
-            "name": "Premier League",
-            "country": "England",
-            "logo": "https://media-4.api-sports.io/football/leagues/39.png",
-            "flag": "https://media-4.api-sports.io/flags/gb.svg",
-            "season": 2023
-          },
-          "games": {
-            "appearences": 17,
-            "lineups": 17,
-            "minutes": 1474,
-            "number": null,
-            "position": "Attacker",
-            "rating": "7.688235",
-            "captain": false
-          },
-          "substitutes": {
-            "in": 0,
-            "out": 5,
-            "bench": 0
-          },
-          "shots": {
-            "total": 42,
-            "on": 25
-          },
-          "goals": {
-            "total": 11,
-            "conceded": 0,
-            "assists": 7,
-            "saves": null
-          },
-          "passes": {
-            "total": 555,
-            "key": 42,
-            "accuracy": 24
-          },
-          "tackles": {
-            "total": 12,
-            "blocks": 1,
-            "interceptions": 2
-          },
-          "duels": {
-            "total": 133,
-            "won": 47
-          },
-          "dribbles": {
-            "attempts": 45,
-            "success": 15,
-            "past": null
-          },
-          "fouls": {
-            "drawn": 16,
-            "committed": 5
-          },
-          "cards": {
-            "yellow": 1,
-            "yellowred": 0,
-            "red": 0
-          },
-          "penalty": {
-            "won": null,
-            "commited": null,
-            "scored": 3,
-            "missed": 1,
-            "saved": null
-          }
+          "type": "Shots off Goal",
+          "value": 2
+        },
+        {
+          "type": "Total Shots",
+          "value": 9
+        },
+        {
+          "type": "Blocked Shots",
+          "value": 4
+        },
+        {
+          "type": "Shots insidebox",
+          "value": 4
+        },
+        {
+          "type": "Shots outsidebox",
+          "value": 5
+        },
+        {
+          "type": "Fouls",
+          "value": 22
+        },
+        {
+          "type": "Corner Kicks",
+          "value": 3
+        },
+        {
+          "type": "Offsides",
+          "value": 1
+        },
+        {
+          "type": "Ball Possession",
+          "value": "32%"
+        },
+        {
+          "type": "Yellow Cards",
+          "value": 5
+        },
+        {
+          "type": "Red Cards",
+          "value": 1
+        },
+        {
+          "type": "Goalkeeper Saves",
+          "value": null
+        },
+        {
+          "type": "Total passes",
+          "value": 242
+        },
+        {
+          "type": "Passes accurate",
+          "value": 121
+        },
+        {
+          "type": "Passes %",
+          "value": null
         }
       ]
     }

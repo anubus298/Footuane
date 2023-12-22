@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Menu } from "@headlessui/react";
+import { leaguesIds } from "../lib/api/ids";
 function Navbar_Main() {
   const params = usePathname();
   const list: Record<string, string> = {
@@ -14,6 +16,7 @@ function Navbar_Main() {
   const [ReferenceClass, setReferenceClass] = useState(
     Object.values(list).map(() => false)
   );
+
   useEffect(() => {
     function ChangeNavbar() {
       let mimic = Object.values(list).map(() => false);
@@ -38,6 +41,28 @@ function Navbar_Main() {
         alt="Footuane logo"
         src={"/main_logo.svg"}
       />
+      <Menu>
+        <div className="relative hidden md:block">
+          <Menu.Button className={""}>LEAGUES</Menu.Button>
+          <Menu.Items
+            className={
+              "absolute flex flex-col bg-primary-second gap-3 top-10 *:px-2 *:text-xs w-48 py-3 text-black"
+            }
+          >
+            {Object.keys(leaguesIds).map((league, index) => {
+              return (
+                <Menu.Item key={102 + index * 2}>
+                  {({ active }) => (
+                    <Link href={`leagues/indv/${leaguesIds[league]}`} className={`${active && "text-white"}`}>
+                      {league}
+                    </Link>
+                  )}
+                </Menu.Item>
+              );
+            })}
+          </Menu.Items>
+        </div>
+      </Menu>
       <ul className="flex gap-4 items-center justify-center">
         {Object.keys(list).map((key, index) => {
           if (key !== "home") {

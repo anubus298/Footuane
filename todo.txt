@@ -1,0 +1,4 @@
+todo :
+- add leagues /indv page
+- add teams /indv page
+- add fixtures /indv page

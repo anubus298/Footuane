@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 
 function Empty_game() {
   return (

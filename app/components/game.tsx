@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { faSoccerBall } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { statusShorts } from "../lib/api/ids";
-import { FixturesData } from "../lib/types/fixture";
+import { FixturesData } from "../lib/types/fixture/fixture";
 
 interface CompProps {
   fixture: FixturesData;
@@ -14,6 +17,8 @@ function Game(props: CompProps) {
   const [elapsed, setelapsed] = useState(
     props.fixture?.fixture?.status?.elapsed
   );
+  const [formattedDate, setformattedDate] = useState("");
+  const router = useRouter();
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -26,50 +31,53 @@ function Game(props: CompProps) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [elapsed]); // Include elapsed as a dependency
+  }, [elapsed]);
 
-  const date = new Date(props.fixture.fixture.date);
-  const formattedDate = date.toLocaleString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-  });
+  useEffect(() => {
+    const date = new Date(props.fixture.fixture.date);
+    setformattedDate(
+      date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: false,
+      })
+    );
+  }, []);
 
   return (
-    <div className="w-full p-3 items-center gap-2 select-none ">
-      <p className="font-semibold text-sm w-full ">{formattedDate}</p>
-      <div className="items-center py-2 px-1 md:px-4 bg-[#313131] bg-opacity-50 flex w-full h-[100px] md:h-[70px]">
+    <div className="w-full p-3 items-center gap-2 select-none">
+      <p className="font-semibold text-sm ">{formattedDate}</p>
+      <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-50 flex w-full h-[100px] md:h-[70px]">
         <div className="w-10/12 flex items-center *:w-1/3">
-          <div className="flex-col md:flex-row flex items-center  gap-3 justify-start ">
-            <div className="w-[35px]">
+          <div className="flex-col md:flex-row flex items-center  gap-3 justify-start">
+            <div
+              className="w-[35px]  cursor-pointer hover:-translate-y-1 transition"
+              onClick={() =>
+                router.push(`teams/indv/${props.fixture.teams.home.id}`)
+              }
+            >
               <Image
-                alt={props.fixture.teams.away.name + " logo"}
-                src={props.fixture.teams.away.logo}
+                alt={props.fixture.teams.home.name + " logo"}
+                src={props.fixture.teams.home.logo}
                 height={35}
                 width={35}
-                className="h-auto w-auto"
+                className="h-auto"
               />
-            </div>{" "}
-            <p className="w-[50px] text-xs md:text-base text-center md:text-start  md:w-[80px]">
-              {props.fixture.teams.away.name}
+            </div>
+            <p className="w-[50px] text-xs md:text-base text-center md:text-start md:w-[80px]">
+              {props.fixture.teams.home.name}
             </p>
           </div>
-          <div className="flex-col flex items-center gap-2">
+          <div
+            onClick={() =>
+              router.push(`fixtures/indv/${props.fixture.fixture.id}`)
+            }
+            className="flex-col flex items-center gap-2 cursor-pointer hover:bg-primary-second hover:bg-opacity-5 transition rounded-sm"
+          >
             <div className="flex items-center gap-2">
-              <p
-                className={
-                  props.fixture.goals.away > props.fixture.goals.home
-                    ? ""
-                    : props.fixture.goals.home === props.fixture.goals.away
-                    ? ""
-                    : "text-gray-500"
-                }
-              >
-                {props.fixture.goals.away ?? "-"}
-              </p>
               <p
                 className={
                   props.fixture.goals.home > props.fixture.goals.away
@@ -80,6 +88,17 @@ function Game(props: CompProps) {
                 }
               >
                 {props.fixture.goals.home ?? "-"}
+              </p>
+              <p
+                className={
+                  props.fixture.goals.away > props.fixture.goals.home
+                    ? ""
+                    : props.fixture.goals.home === props.fixture.goals.away
+                    ? ""
+                    : "text-gray-500"
+                }
+              >
+                {props.fixture.goals.away ?? "-"}
               </p>
             </div>
             {/*if in_play show current time*/}
@@ -108,23 +127,29 @@ function Game(props: CompProps) {
               <p>Penalty in Progress</p>
             )}
           </div>
-          <div className="flex-col md:flex-row flex items-center  gap-3 justify-end">
-            <div className="w-[35px]">
+
+          <div className="flex-col md:flex-row flex items-center  gap-3 justify-end ">
+            <div
+              className="w-[35px] cursor-pointer hover:-translate-y-1 transition"
+              onClick={() =>
+                router.push(`teams/indv/${props.fixture.teams.away.id}`)
+              }
+            >
               <Image
                 alt={props.fixture.teams.away.name + " logo"}
-                src={props.fixture.teams.home.logo}
+                src={props.fixture.teams.away.logo}
                 height={35}
                 width={35}
-                className="h-auto"
+                className="h-auto w-auto"
               />
             </div>
-            <p className="w-[50px] text-xs md:text-base text-center md:text-start md:w-[80px]">
-              {props.fixture.teams.home.name}
+            <p className="w-[50px] text-xs md:text-base text-center md:text-start  md:w-[80px]">
+              {props.fixture.teams.away.name}
             </p>
           </div>
         </div>
         <div className="w-2/12 flex justify-end">
-          <div className=" size-[45px] bg-white bg-opacity-15 rounded-2xl  overflow-hidden flex place-center p-1">
+          <div className=" size-[45px] bg-primary-second rounded-sm  overflow-hidden flex place-center p-1">
             <Image
               alt={
                 props.fixture.league.name +
@@ -134,7 +159,7 @@ function Game(props: CompProps) {
               src={props.fixture.league.logo}
               height={35}
               width={35}
-              className="h-auto"
+              className="h-auto cursor-pointer hover:-translate-y-1 transition  "
             />
           </div>
         </div>

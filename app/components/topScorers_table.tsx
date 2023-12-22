@@ -67,6 +67,7 @@ function TopScorers_table(props: Props) {
       title: "Nationality",
       dataIndex: "nationality",
       key: "nationality",
+      responsive : ["lg"]
     },
     {
       title: "Assists",

@@ -73,6 +73,8 @@ function Competition_table(props: Props) {
       align: "center",
     },
   ];
+
+  
   return (
     <ConfigProvider
       theme={{
@@ -109,82 +111,3 @@ function Competition_table(props: Props) {
 
 export default Competition_table;
 
-// const dataSource = props.standings.map((team, index) => {
-//   return {
-//     key: index,
-//     rank: team.rank,
-//     played: team.all.played,
-//     points: team.points,
-//     goalsFor: team.all.goals.for,
-//     goalsAgainst: team.all.goals.against,
-//     goalDifference: team.goalsDiff,
-//     lost: team.all.lose,
-//     team: (
-//       <div className="flex items-center gap-2">
-//         <Image
-//           src={team.team.logo}
-//           alt={team.team.name + " logo"}
-//           height={30}
-//           width={30}
-//           className="h-auto"
-//         />
-//         <p>{team.team.name}</p>
-//       </div>
-//     ),
-//     won: team.all.win,
-//     draw: team.all.draw,
-//   };
-// });
-// const columns = [
-//   {
-//     title: "Rank",
-//     dataIndex: "rank",
-//     key: "rank",
-// responsive : ["lg"]
-//   },
-//   {
-//     title: "Team",
-//     dataIndex: "team",
-//     key: "team",
-//   },
-//   {
-//     title: "Played",
-//     dataIndex: "played",
-//     key: "played",
-//   },
-//   {
-//     title: "Points",
-//     dataIndex: "points",
-//     key: "points",
-//   },
-//   {
-//     title: "GF",
-//     dataIndex: "goalsFor",
-//     key: "goalsFor",
-//   },
-//   {
-//     title: "GA",
-//     dataIndex: "goalsAgainst",
-//     key: "goalsAgainst",
-//   },
-//   {
-//     title: "GD",
-//     dataIndex: "goalDifference",
-//     key: "goalDifference",
-//   },
-//   {
-//     title: "Won",
-//     dataIndex: "won",
-//     key: "won",
-//   },
-//   {
-//     title: "Draw",
-//     dataIndex: "draw",
-//     key: "draw",
-//   },
-//   {
-//     title: "Lost",
-//     dataIndex: "lost",
-//     key: "lost",
-//   },
-// ];
