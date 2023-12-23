@@ -1,17 +1,17 @@
 import { ConfigProvider } from "antd";
 import type { Metadata } from "next";
 import { Oswald } from "next/font/google";
-import "./globals.css";
 import Navbar_main from "./navbar/navbar_main";
 import StyledComponentsRegistry from "./lib/AntdRegistry";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import "./styles/globals.css";
+import "./styles/loader.css";
 import 'swiper/css';
-import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 const inter = Oswald({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["200","200", "300", "400", "500", "600", "700"],
   variable: "--font-Oswald",
 });
 config.autoAddCss = false;

@@ -3,7 +3,6 @@
 import { faSoccerBall } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { statusShorts } from "../lib/api/ids";
@@ -31,7 +30,7 @@ function Game(props: CompProps) {
     return () => {
       clearInterval(intervalId);
     };
-  }, [elapsed]);
+  }, []);
 
   useEffect(() => {
     const date = new Date(props.fixture.fixture.date);
@@ -48,11 +47,11 @@ function Game(props: CompProps) {
   }, []);
 
   return (
-    <div className="w-full p-3 items-center gap-2 select-none">
-      <p className="font-semibold text-sm ">{formattedDate}</p>
+    <div className="items-center w-full gap-2 p-3 select-none">
+      <p className="text-sm font-semibold ">{formattedDate}</p>
       <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-50 flex w-full h-[100px] md:h-[70px]">
         <div className="w-10/12 flex items-center *:w-1/3">
-          <div className="flex-col md:flex-row flex items-center  gap-3 justify-start">
+          <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
             <div
               className="w-[35px]  cursor-pointer hover:-translate-y-1 transition"
               onClick={() =>
@@ -73,9 +72,9 @@ function Game(props: CompProps) {
           </div>
           <div
             onClick={() =>
-              router.push(`fixtures/indv/${props.fixture.fixture.id}`)
+              router.push(`/fixtures/indv/${props.fixture.fixture.id}`)
             }
-            className="flex-col flex items-center gap-2 cursor-pointer hover:bg-primary-second hover:bg-opacity-5 transition rounded-sm"
+            className="flex flex-col items-center gap-2 transition rounded-sm cursor-pointer hover:bg-primary-second hover:bg-opacity-5"
           >
             <div className="flex items-center gap-2">
               <p
@@ -101,12 +100,12 @@ function Game(props: CompProps) {
                 {props.fixture.goals.away ?? "-"}
               </p>
             </div>
-            {/*if in_play show current time*/}
+            {/*if in_play show current time */}
             {statusShorts.in_play.includes(
               props.fixture.fixture.status.short
             ) && (
               <div className="flex items-center gap-1 text-primary-second">
-                <p className=" font-semibold">{elapsed}&apos;</p>
+                <p className="font-semibold ">{elapsed}&apos;</p>
                 <FontAwesomeIcon
                   icon={faSoccerBall}
                   bounce
@@ -128,7 +127,7 @@ function Game(props: CompProps) {
             )}
           </div>
 
-          <div className="flex-col md:flex-row flex items-center  gap-3 justify-end ">
+          <div className="flex flex-col items-center justify-end gap-3 md:flex-row ">
             <div
               className="w-[35px] cursor-pointer hover:-translate-y-1 transition"
               onClick={() =>
@@ -140,7 +139,7 @@ function Game(props: CompProps) {
                 src={props.fixture.teams.away.logo}
                 height={35}
                 width={35}
-                className="h-auto w-auto"
+                className="w-auto h-auto"
               />
             </div>
             <p className="w-[50px] text-xs md:text-base text-center md:text-start  md:w-[80px]">
@@ -148,7 +147,7 @@ function Game(props: CompProps) {
             </p>
           </div>
         </div>
-        <div className="w-2/12 flex justify-end">
+        <div className="flex justify-end w-2/12">
           <div className=" size-[45px] bg-primary-second rounded-sm  overflow-hidden flex place-center p-1">
             <Image
               alt={
@@ -159,7 +158,7 @@ function Game(props: CompProps) {
               src={props.fixture.league.logo}
               height={35}
               width={35}
-              className="h-auto cursor-pointer hover:-translate-y-1 transition  "
+              className="h-auto transition cursor-pointer hover:-translate-y-1 "
             />
           </div>
         </div>
@@ -178,7 +177,13 @@ function getPrettyDate(date: string): string {
 
   if (now > 0) {
     // Future date
-    if (absDiffInSeconds >= 86400) {
+    if (absDiffInSeconds >= 31536000) {
+      const diffInYears = Math.floor(absDiffInSeconds / 31536000);
+      return new Intl.RelativeTimeFormat("en").format(diffInYears, "year");
+    } else if (absDiffInSeconds >= 2592000) {
+      const diffInMonths = Math.floor(absDiffInSeconds / 2592000);
+      return new Intl.RelativeTimeFormat("en").format(diffInMonths, "month");
+    } else if (absDiffInSeconds >= 86400) {
       const diffInDays = Math.floor(absDiffInSeconds / 86400);
       return new Intl.RelativeTimeFormat("en").format(diffInDays, "day");
     } else if (absDiffInSeconds >= 3600) {
@@ -190,7 +195,13 @@ function getPrettyDate(date: string): string {
     }
   } else if (now < 0) {
     // Past date
-    if (absDiffInSeconds >= 86400) {
+    if (absDiffInSeconds >= 31536000) {
+      const diffInYears = Math.floor(absDiffInSeconds / 31536000);
+      return new Intl.RelativeTimeFormat("en").format(-diffInYears, "year");
+    } else if (absDiffInSeconds >= 2592000) {
+      const diffInMonths = Math.floor(absDiffInSeconds / 2592000);
+      return new Intl.RelativeTimeFormat("en").format(-diffInMonths, "month");
+    } else if (absDiffInSeconds >= 86400) {
       const diffInDays = Math.floor(absDiffInSeconds / 86400);
       return new Intl.RelativeTimeFormat("en").format(-diffInDays, "day");
     } else if (absDiffInSeconds >= 3600) {
@@ -205,5 +216,6 @@ function getPrettyDate(date: string): string {
     return "Now";
   }
 }
+
 
 export default Game;

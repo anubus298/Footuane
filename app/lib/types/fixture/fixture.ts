@@ -124,7 +124,7 @@ export interface FixturesData {
     teams: FixtureTeams;
     goals: FixtureGoals;
     score: FixtureScore;
-    events: FixtureEvents;
+    events?: FixtureEvents;
   }
 
 export interface fixtureResponse {

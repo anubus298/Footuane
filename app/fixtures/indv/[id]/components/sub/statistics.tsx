@@ -1,12 +1,20 @@
-import { TeamStatistics } from "@/app/lib/types/fixture/fixtureIndv";
+"use client";
+import {
+  Player,
+  Players,
+  TeamStatistics,
+} from "@/app/lib/types/fixture/fixtureIndv";
+import { Divider, Popover } from "antd";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 interface Props {
   statistics: TeamStatistics[];
   homeColor: string;
   awayColor: string;
+  players: Players[];
 }
 
-function Statistics({ statistics, awayColor, homeColor }: Props) {
+function Statistics({ statistics, awayColor, homeColor, players }: Props) {
   const validTypes = [
     "Shots on Goal",
     "Shots off Goal",
@@ -16,6 +24,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
     "Offsides",
     "Ball Possession",
     "Total passes",
+    "Passes accurate",
   ];
 
   const widthReference = useRef<HTMLDivElement | null>(null);
@@ -39,7 +48,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
           return (
             <div
               key={index * 4 + 5468}
-              className="flex justify-between items-center "
+              className="flex items-center justify-between "
             >
               <p>
                 {(statistics[0].statistics.find((key) => {
@@ -47,7 +56,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
                 })?.value as number) || 0}
               </p>
               <div
-                className=" h-3 text-xs md:text-base md:h-2  opacity-50"
+                className="h-3 text-xs opacity-50 md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + homeColor,
                   width:
@@ -61,6 +70,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
                           return item === key.type;
                         })?.value as number) || 0)) *
                       (((width?.clientWidth as number) || 0) - 25) +
+                    1 +
                     "px",
                 }}
               ></div>
@@ -70,7 +80,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
           return (
             <div
               key={index * 4 + 5468}
-              className="flex justify-between  items-center "
+              className="flex items-center justify-between "
             >
               <p>
                 {(statistics[0].statistics.find((key) => {
@@ -78,7 +88,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
                 })?.value as number) || 0}
               </p>
               <div
-                className=" h-3 text-xs md:text-base md:h-2  opacity-50"
+                className="h-3 text-xs opacity-50 md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + homeColor,
                   width:
@@ -91,6 +101,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
                     ) /
                       100) *
                       (((width?.clientWidth as number) || 0) - 25) +
+                    1 +
                     "px",
                 }}
               ></div>
@@ -108,7 +119,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
               className="flex items-center justify-between"
             >
               <div
-                className=" h-3 text-xs md:text-base md:h-2  opacity-50"
+                className="h-3 text-xs opacity-50 md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + awayColor,
                   width:
@@ -122,6 +133,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
                           return item === key.type;
                         })?.value as number) || 0)) *
                       (((width?.clientWidth as number) || 0) - 25) +
+                    1 +
                     "px",
                 }}
               ></div>
@@ -136,10 +148,10 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
           return (
             <div
               key={index * 4 + 5468}
-              className="flex justify-between  items-center "
+              className="flex items-center justify-between "
             >
               <div
-                className=" h-3 text-xs md:text-base md:h-2  opacity-50"
+                className="h-3 text-xs opacity-50 md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + awayColor,
                   width:
@@ -152,6 +164,7 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
                     ) /
                       100) *
                       (((width?.clientWidth as number) || 0) - 25) +
+                    1 +
                     "px",
                 }}
               ></div>
@@ -167,18 +180,130 @@ function Statistics({ statistics, awayColor, homeColor }: Props) {
     );
   }, []);
   return (
-    <div className="w-full bg-primary-first bg-opacity-50 text-white grid-cols-12 grid p-2 py-4">
-      <div
-        ref={widthReference}
-        className="col-span-5 flex flex-col *:h-3 text-xs md:text-base *:md:h-5 gap-4"
-      >
-        {HomeTeamStatistics}
-      </div>
-      <div className="col-span-2 flex flex-col text-center *:h-3 text-xs md:text-base *:md:h-5 gap-4">
-        {MiddleText}
-      </div>
-      <div className="col-span-5 flex flex-col gap-4 *:h-3 text-xs md:text-base *:md:h-5">
-        {AwayTeamStatistics}
+    <div className="p-2 py-4 text-white bg-opacity-50 select-none bg-primary-first">
+      <h3 className="mb-2 text-2xl font-semibold text-center text-primary-second">Statistics </h3>
+      <div className="grid w-full grid-cols-12 grid-rows-1 ">
+        <div
+          ref={widthReference}
+          className="col-span-5 flex flex-col *:h-3 text-xs md:text-base *:md:h-5 gap-4 row-span-1"
+        >
+          <div className="flex items-center justify-end w-full gap-4">
+            {players[0]?.players && (
+              <>
+                <Popover
+                  content={players[0].players
+                    .filter((player) => player.statistics[0].cards.red !== 0)
+                    .map((player) => {
+                      return (
+                        <div
+                          key={player.player.id + 452}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="mt-1 bg-red-600 card"></div>
+                          <Link href={"/players/" + player.player.id}>
+                            {player.player.name}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  className="cursor-pointer"
+                >
+                  <div className="bg-red-600 card">
+                    {(statistics[0].statistics.find((key) => {
+                      return "Red Cards" === key.type;
+                    })?.value as number) || 0}
+                  </div>
+                </Popover>
+                <Popover
+                  content={players[0].players
+                    .filter((player) => player.statistics[0].cards.yellow !== 0)
+                    .map((player) => {
+                      return (
+                        <div
+                          key={player.player.id + 452}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="mt-1 bg-yellow-400 card"></div>
+                          <Link href={"/players/" + player.player.id}>
+                            {player.player.name}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  className="cursor-pointer"
+                >
+                  <div className="text-black bg-yellow-400 card">
+                    {(statistics[0].statistics.find((key) => {
+                      return "Yellow Cards" === key.type;
+                    })?.value as number) || 0}
+                  </div>
+                </Popover>
+              </>
+            )}
+          </div>
+          {HomeTeamStatistics}
+        </div>
+        <div className="col-span-2 flex flex-col text-center *:h-3 text-xs md:text-base *:md:h-5 gap-4 row-span-1">
+          <div className="flex flex-col col-span-2 row-span-1">Cards</div>
+          {MiddleText}
+        </div>
+        <div className="col-span-5 flex flex-col gap-4 row-span-1 *:h-3 text-xs md:text-base *:md:h-5">
+          <div className="flex items-center gap-4">
+            {players[1]?.players && (
+              <>
+                <Popover
+                  content={players[1].players
+                    .filter((player) => player.statistics[0].cards.yellow !== 0)
+                    .map((player) => {
+                      return (
+                        <div
+                          key={player.player.id + 452}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="mt-1 bg-yellow-400 card"></div>
+                          <Link href={"/players/" + player.player.id}>
+                            {player.player.name}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  className="cursor-pointer"
+                >
+                  <div className="text-black bg-yellow-400 card">
+                    {(statistics[1].statistics.find((key) => {
+                      return "Yellow Cards" === key.type;
+                    })?.value as number) || 0}
+                  </div>
+                </Popover>
+                <Popover
+                  content={players[1].players
+                    .filter((player) => player.statistics[0].cards.red !== 0)
+                    .map((player) => {
+                      return (
+                        <div
+                          key={player.player.id + 452}
+                          className="flex items-center gap-2"
+                        >
+                          <div className="mt-1 bg-red-600 card"></div>
+                          <Link href={"/players/" + player.player.id}>
+                            {player.player.name}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  className="cursor-pointer"
+                >
+                  <div className="bg-red-600 card">
+                    {(statistics[1].statistics.find((key) => {
+                      return "Red Cards" === key.type;
+                    })?.value as number) || 0}
+                  </div>
+                </Popover>
+              </>
+            )}
+          </div>
+          {AwayTeamStatistics}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 interface Fixture {
   id: number;
-  referee: string;
+  referee: string | null;
   timezone: string;
   date: string;
   timestamp: number;
@@ -16,7 +16,7 @@ interface Fixture {
   status: {
     long: string;
     short: string;
-    elapsed: number;
+    elapsed: number | null;
   };
 }
 
@@ -34,7 +34,7 @@ interface Team {
   id: number;
   name: string;
   logo: string;
-  winner: boolean;
+  winner: boolean | null;
 }
 
 interface Goal {
@@ -52,19 +52,19 @@ interface Score {
     away: number;
   };
   extratime: {
-    home: null;
-    away: null;
+    home: number | null;
+    away: number | null;
   };
   penalty: {
-    home: null;
-    away: null;
+    home: number | null;
+    away: number | null;
   };
 }
 
-interface Event {
+export interface Event {
   time: {
-    elapsed: number;
-    extra: null;
+    elapsed: number | null;
+    extra: number | null;
   };
   team: {
     id: number;
@@ -200,7 +200,7 @@ interface PlayerStatistics {
   };
 }
 
-interface Player {
+export interface Player {
   player: {
     id: number;
     name: string;
@@ -208,7 +208,10 @@ interface Player {
   };
   statistics: PlayerStatistics[];
 }
-
+export interface Players {
+  players: Player[] | [];
+  team: Team;
+}
 interface MatchData {
   fixture: Fixture;
   league: League;
@@ -218,10 +221,10 @@ interface MatchData {
   };
   goals: Goal;
   score: Score;
-  events: Event[];
-  lineups: TeamFormation[];
-  statistics: TeamStatistics[];
-  players: Player[];
+  events: Event[] | [];
+  lineups: TeamFormation[] | [];
+  statistics: TeamStatistics[] | [];
+  players: Players[] | [];
 }
 
 export interface FixtureIndvResponse {

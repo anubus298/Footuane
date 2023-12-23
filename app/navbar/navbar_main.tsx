@@ -34,7 +34,7 @@ function Navbar_Main() {
     ChangeNavbar();
   }, [params]);
   return (
-    <nav className="bg-primary-lime-green w-full p-1 px-8 mb-2 text-white flex items-center justify-between md:text-lg font-semibold uppercase">
+    <nav className="flex items-center justify-between w-full p-1 px-8 mb-2 font-semibold text-white uppercase bg-primary-lime-green md:text-lg">
       <Image
         height={60}
         width={60}
@@ -42,11 +42,11 @@ function Navbar_Main() {
         src={"/main_logo.svg"}
       />
       <Menu>
-        <div className="relative hidden md:block">
+        <div className="relative z-20 hidden md:block">
           <Menu.Button className={""}>LEAGUES</Menu.Button>
           <Menu.Items
             className={
-              "absolute flex flex-col bg-primary-second gap-3 top-10 *:px-2 *:text-xs w-48 py-3 text-black"
+              "absolute flex flex-col bg-primary-first bg-opacity-90 gap-3 top-10 *:px-2 *:text-xs w-48 py-3 text-primary-second"
             }
           >
             {Object.keys(leaguesIds).map((league, index) => {
@@ -63,7 +63,7 @@ function Navbar_Main() {
           </Menu.Items>
         </div>
       </Menu>
-      <ul className="flex gap-4 items-center justify-center">
+      <ul className="flex items-center justify-center gap-4">
         {Object.keys(list).map((key, index) => {
           if (key !== "home") {
             return (
