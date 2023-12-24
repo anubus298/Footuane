@@ -6,7 +6,9 @@ import Empty_Lineups from "./sub/empty/empty_lineups";
 import FixtureInfo from "./sub/fixtureInfo";
 import HeadToHead from "./sub/head2head";
 import Lineups from "./sub/lineups";
+import PlayerStatistics from "./sub/playersStatistics";
 import Pallete_main from "./sub/pallete_main";
+import Predictions from "./sub/predictions";
 import Statistics from "./sub/statistics";
 import TimeLine from "./sub/timeline";
 
@@ -33,7 +35,20 @@ function Fixture_indv_main({ response }: { response: FixtureHandlerResponse }) {
         {response.fixtureResponse.response[0]?.events.length !== 0 && (
           <TimeLine events={response.fixtureResponse.response[0]?.events} />
         )}
-        <HeadToHead headToheads={response.getHeadToHeadReponse}/>
+        <PlayerStatistics  players={response.fixtureResponse.response[0].players}/>
+        <HeadToHead
+          teams={{
+            home: {
+              name: response.fixtureResponse.response[0].teams?.home.name || "",
+              id: response.fixtureResponse.response[0].teams?.home.id || 0,
+            },
+            away: {
+              name: response.fixtureResponse.response[0].teams?.away.name || "",
+              id: response.fixtureResponse.response[0].teams?.away.id || 0,
+            },
+          }}
+          headToheads={response.predictionsResponse?.response[0]?.h2h || []}
+        />
       </div>
       <div className="col-span-12 row-span-1 md:col-span-4">
         {response.fixtureResponse?.response?.[0]?.lineups?.length !==
@@ -60,10 +75,10 @@ function Fixture_indv_main({ response }: { response: FixtureHandlerResponse }) {
               }
             />
           )}
-
         {!response.fixtureResponse.response[0].lineups?.length && (
           <Empty_Lineups />
         )}
+        <Predictions predictions={response.predictionsResponse || undefined}/>
       </div>
     </div>
   );

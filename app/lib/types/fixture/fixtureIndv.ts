@@ -215,7 +215,7 @@ export interface Players {
 interface MatchData {
   fixture: Fixture;
   league: League;
-  teams: {
+  teams?: {
     home: Team;
     away: Team;
   };

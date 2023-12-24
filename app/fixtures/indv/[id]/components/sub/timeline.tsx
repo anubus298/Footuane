@@ -1,4 +1,5 @@
 "use client";
+import { useMediaQuery } from "react-responsive";
 
 import { Event } from "@/app/lib/types/fixture/fixtureIndv";
 import {
@@ -11,6 +12,7 @@ import { ConfigProvider, Popover, Timeline } from "antd";
 import Image from "next/image";
 
 function TimeLine({ events }: { events: Event[] }) {
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
   const TimeLineDictionnary: Record<string, JSX.Element> = {
     "Yellow Card": <div className="bg-yellow-400 card-small"></div>,
     "Red Card": <div className="bg-red-600 card-small"></div>,
@@ -57,7 +59,8 @@ function TimeLine({ events }: { events: Event[] }) {
                 key={index * 45 + 6456}
               >
                 <Popover
-                  trigger={"click"}
+                trigger={isMobileScreen ? "click" : "hover"}
+                
                   content={
                     <div className="flex flex-col">
                       <div className="flex items-center gap-1">

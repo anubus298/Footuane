@@ -20,8 +20,12 @@ function Main(props: Props) {
       <Games_table
         direction="left"
         fixtures={props.live.response}
-        
         type="live"
+        standings={{
+          id: props.standings.response[0].league.id,
+          name: props.standings.response[0].league.name,
+          standings: props.standings.response[0].league.standings[0],
+        }}
       />
       <Games_table
         direction="right"

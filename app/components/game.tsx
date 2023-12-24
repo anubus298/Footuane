@@ -150,6 +150,9 @@ function Game(props: CompProps) {
         <div className="flex justify-end w-2/12">
           <div className=" size-[45px] bg-primary-second rounded-sm  overflow-hidden flex place-center p-1">
             <Image
+            onClick={() =>
+              router.push(`/leagues/indv/${props.fixture.league.id}`)
+            }
               alt={
                 props.fixture.league.name +
                 " logo: " +

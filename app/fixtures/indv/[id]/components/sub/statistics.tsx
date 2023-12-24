@@ -1,10 +1,7 @@
 "use client";
-import {
-  Player,
-  Players,
-  TeamStatistics,
-} from "@/app/lib/types/fixture/fixtureIndv";
-import { Divider, Popover } from "antd";
+import { Players, TeamStatistics } from "@/app/lib/types/fixture/fixtureIndv";
+import { useMediaQuery } from "react-responsive";
+import { Popover } from "antd";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 interface Props {
@@ -15,6 +12,8 @@ interface Props {
 }
 
 function Statistics({ statistics, awayColor, homeColor, players }: Props) {
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
+
   const validTypes = [
     "Shots on Goal",
     "Shots off Goal",
@@ -56,7 +55,7 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                 })?.value as number) || 0}
               </p>
               <div
-                className="h-3 text-xs opacity-50 md:text-base md:h-2"
+                className="h-2 text-xs opacity-50 rounded-s-lg md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + homeColor,
                   width:
@@ -69,7 +68,8 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                         (statistics[0].statistics.find((key) => {
                           return item === key.type;
                         })?.value as number) || 0)) *
-                      (((width?.clientWidth as number) || 0) - 25) +
+                      (((width?.clientWidth as number) || 0) -
+                        (isMobileScreen ? 30 : 25)) +
                     1 +
                     "px",
                 }}
@@ -88,7 +88,7 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                 })?.value as number) || 0}
               </p>
               <div
-                className="h-3 text-xs opacity-50 md:text-base md:h-2"
+                className="h-2 text-xs opacity-50 rounded-s-lg md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + homeColor,
                   width:
@@ -100,7 +100,8 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                       ).replace(/%/g, "")
                     ) /
                       100) *
-                      (((width?.clientWidth as number) || 0) - 25) +
+                      (((width?.clientWidth as number) || 0) -
+                        (isMobileScreen ? 30 : 25)) +
                     1 +
                     "px",
                 }}
@@ -119,7 +120,7 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
               className="flex items-center justify-between"
             >
               <div
-                className="h-3 text-xs opacity-50 md:text-base md:h-2"
+                className="h-2 text-xs opacity-50 rounded-e-lg md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + awayColor,
                   width:
@@ -132,7 +133,8 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                         (statistics[1].statistics.find((key) => {
                           return item === key.type;
                         })?.value as number) || 0)) *
-                      (((width?.clientWidth as number) || 0) - 25) +
+                      (((width?.clientWidth as number) || 0) -
+                        (isMobileScreen ? 30 : 25)) +
                     1 +
                     "px",
                 }}
@@ -151,7 +153,7 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
               className="flex items-center justify-between "
             >
               <div
-                className="h-3 text-xs opacity-50 md:text-base md:h-2"
+                className="h-2 text-xs opacity-50 rounded-e-lg md:text-base md:h-2"
                 style={{
                   backgroundColor: "#" + awayColor,
                   width:
@@ -163,7 +165,8 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                       ).replace(/%/g, "")
                     ) /
                       100) *
-                      (((width?.clientWidth as number) || 0) - 25) +
+                      (((width?.clientWidth as number) || 0) -
+                        (isMobileScreen ? 30 : 25)) +
                     1 +
                     "px",
                 }}
@@ -181,16 +184,19 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
   }, []);
   return (
     <div className="p-2 py-4 text-white bg-opacity-50 select-none bg-primary-first">
-      <h3 className="mb-2 text-2xl font-semibold text-center text-primary-second">Statistics </h3>
-      <div className="grid w-full grid-cols-12 grid-rows-1 ">
+      <h3 className="mb-2 text-2xl font-semibold text-center text-primary-second">
+        Statistics{" "}
+      </h3>
+      <div className="grid w-full grid-cols-9 grid-rows-1 md:grid-cols-12 ">
         <div
+          className="col-span-3 md:col-span-5 flex flex-col *:h-3 text-xs md:text-base *:md:h-5 gap-4 row-span-1"
           ref={widthReference}
-          className="col-span-5 flex flex-col *:h-3 text-xs md:text-base *:md:h-5 gap-4 row-span-1"
         >
           <div className="flex items-center justify-end w-full gap-4">
             {players[0]?.players && (
               <>
                 <Popover
+                  trigger={isMobileScreen ? "click" : "hover"}
                   content={players[0].players
                     .filter((player) => player.statistics[0].cards.red !== 0)
                     .map((player) => {
@@ -215,6 +221,7 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
                   </div>
                 </Popover>
                 <Popover
+                  trigger={isMobileScreen ? "click" : "hover"}
                   content={players[0].players
                     .filter((player) => player.statistics[0].cards.yellow !== 0)
                     .map((player) => {
@@ -243,11 +250,11 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
           </div>
           {HomeTeamStatistics}
         </div>
-        <div className="col-span-2 flex flex-col text-center *:h-3 text-xs md:text-base *:md:h-5 gap-4 row-span-1">
+        <div className="col-span-3 md:col-span-2 flex flex-col text-center *:h-3 text-xs md:text-base *:md:h-5 gap-4 row-span-1">
           <div className="flex flex-col col-span-2 row-span-1">Cards</div>
           {MiddleText}
         </div>
-        <div className="col-span-5 flex flex-col gap-4 row-span-1 *:h-3 text-xs md:text-base *:md:h-5">
+        <div className="col-span-3 md:col-span-5 flex flex-col gap-4 row-span-1 *:h-3 text-xs md:text-base *:md:h-5">
           <div className="flex items-center gap-4">
             {players[1]?.players && (
               <>

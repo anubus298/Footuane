@@ -9,10 +9,10 @@ export interface headToHeadResponse {
       current: number;
       total: number;
     };
-    response: Fixture[];
+    response: HeadToHeadFixture[];
   }
   
-  interface Fixture {
+export interface HeadToHeadFixture {
     fixture: {
       id: number;
       referee: string;

@@ -14,12 +14,12 @@ import TopScorers_table from "./topScorers_table";
 import Image from "next/image";
 
 interface mainProps {
-  fixtures: FixturesData[];
+  fixtures?: FixturesData[];
   type: string;
   result?: FixturesData[];
   direction: string;
   standings?: {
-    id: string;
+    id: number;
     name: string;
     standings: StandingsTeam[];
   };
@@ -30,21 +30,22 @@ interface mainProps {
 }
 function Games_table(props: mainProps) {
   return props.direction === "left" ? (
-    <div className="w-full p-1 md:p-3 text-white  mt-4 selection:bg-primary-purple selection:text-primary-white">
-      <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4 mb-2">
-        <h1 className="text-5xl font-extrabold text-primary-second text-center md:text-start flex items-center col-span-2 uppercase">
+    <div className="w-full p-1 mt-4 text-white md:p-3 selection:bg-primary-purple selection:text-primary-white">
+      <div className="grid grid-cols-1 mb-2 md:grid-cols-4 md:gap-4">
+        <h1 className="flex items-center col-span-2 text-5xl font-extrabold text-center uppercase text-primary-second md:text-start">
           {props.type} GAMES
         </h1>
         <div className="col-span-2">
           {props.standings?.standings && (
-            <div className="flex w-full justify-between items-center gap-2 ">
+            <div className="flex items-center justify-between w-full gap-2 ">
               <h1 className="text-5xl font-extrabold uppercase text-primary-second">
                 {props.standings?.name} standings
               </h1>
-              <div className="w-[80px] max-h-[100px] bg-primary-second rounded-sm overflow-hidden">
+              <div className="w-[80px] bg-primary-second rounded-sm p-1">
                 <Image
                   src={`https://media-4.api-sports.io/football/leagues/${props.standings.id}.png`}
-                  alt={props.fixtures[0].league.name + " logo"}
+                  alt={(props?.fixtures?.[0]?.league?.name || "") + " logo"}
+
                   className="h-auto"
                   height={80}
                   width={80}
@@ -54,9 +55,9 @@ function Games_table(props: mainProps) {
           )}
         </div>
       </div>
-      <div className=" grid grid-cols-1 md:grid-cols-4 md:gap-4 ">
+      <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
         <div className="flex-col flex py-2 items-start md:py-4 h-[600px] col-span-2 overflow-y-auto">
-          {props.fixtures.length != 0 ? (
+          {props?.fixtures?.length != 0 ? (
             <>
               <Swiper
                 direction={"vertical"}
@@ -83,7 +84,7 @@ function Games_table(props: mainProps) {
               </Swiper>
               <Link
                 href={""}
-                className="text-primary-second uppercase flex items-center gap-2 mt-2"
+                className="flex items-center gap-2 mt-2 uppercase text-primary-second"
               >
                 <FontAwesomeIcon icon={faArrowLeft} />
                 <p>View more</p>
@@ -93,7 +94,7 @@ function Games_table(props: mainProps) {
             <Empty_game />
           )}
         </div>
-        <div className="col-span-2 flex items-center justify-center  py-2 md:py-4">
+        <div className="flex items-center justify-center col-span-2 py-2 md:py-4">
           {props.standings?.standings && (
             <Competition_table standings={props.standings?.standings} />
           )}
@@ -104,15 +105,15 @@ function Games_table(props: mainProps) {
       </div>
     </div>
   ) : (
-    <div className="w-full p-1 md:p-3 text-white mt-4 selection:bg-primary-purple selection:text-primary-white">
-      <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4  mb-2">
+    <div className="w-full p-1 mt-4 text-white md:p-3 selection:bg-primary-purple selection:text-primary-white">
+      <div className="grid grid-cols-1 mb-2 md:grid-cols-4 md:gap-4">
         <div className="col-span-2">
           {props.topScorers && (
-            <div className="flex w-full justify-between items-center gap-2 ">
+            <div className="flex items-center justify-between w-full gap-2 ">
               <h1 className="text-5xl font-extrabold uppercase text-primary-second">
                 {props.topScorers[0].statistics[0].league.name} top scorers
               </h1>
-              <div className="w-[80px] max-h-[100px] bg-primary-second rounded-sm overflow-hidden">
+              <div className="w-[80px] bg-primary-second rounded-sm p-1">
                 <Image
                   src={props.topScorers[0].statistics[0].league.logo}
                   alt={props.topScorers[0].statistics[0].league.name + " logo"}
@@ -124,15 +125,17 @@ function Games_table(props: mainProps) {
             </div>
           )}
         </div>
-        <h1 className="text-5xl font-extrabold text-primary-second text-center md:text-start flex items-center col-span-2 uppercase">
+        <h1 className="flex items-center col-span-2 text-5xl font-extrabold text-center uppercase text-primary-second md:text-start">
           {props.type} GAMES
         </h1>
       </div>
-      <div className=" grid grid-cols-1 md:grid-cols-4 md:gap-4 ">
-        <div className="col-span-2 flex items-center justify-center  py-2 md:py-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
+        <div className="flex items-center justify-center col-span-2 py-2 md:py-4">
           {props.standings?.standings && (
             <div className="w-full">
-              <h1 className="text-5xl font-extrabold">Premier League</h1>
+               <h1 className="text-5xl font-extrabold uppercase text-primary-second">
+                {props.standings?.name} standings
+              </h1>
               <Competition_table standings={props.standings?.standings} />
             </div>
           )}
@@ -141,7 +144,7 @@ function Games_table(props: mainProps) {
           )}
         </div>
         <div className="flex-col flex py-2 items-end md:py-4 h-[600px] col-span-2 overflow-y-auto">
-          {props.fixtures.length != 0 ? (
+          {props?.fixtures?.length != 0 ? (
             <>
               <Swiper
                 direction={"vertical"}
@@ -167,7 +170,7 @@ function Games_table(props: mainProps) {
               </Swiper>
               <Link
                 href={""}
-                className="text-primary-second uppercase flex items-center gap-2 mt-2"
+                className="flex items-center gap-2 mt-2 uppercase text-primary-second"
               >
                 <p>View more</p>
                 <FontAwesomeIcon icon={faArrowRight} />

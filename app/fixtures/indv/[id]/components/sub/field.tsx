@@ -3,6 +3,7 @@ import { TeamFormation } from "@/app/lib/types/fixture/fixtureIndv";
 import { Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import { useMediaQuery } from 'react-responsive'
 import { Mimic } from "./lineups";
 interface Props {
   list: Mimic[][];
@@ -10,9 +11,10 @@ interface Props {
   isHome: boolean;
 }
 function FieldPitch({ list, lineup, isHome }: Props) {
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
   return (
     <div
-      className="relative w-[409px] h-[277px] select-none"
+      className="relative w-full h-[240px] overflow-hidden sm:w-[409px] sm:h-[277px] select-none"
       style={{
         display: "grid",
         gridTemplateColumns: isHome
@@ -35,6 +37,7 @@ function FieldPitch({ list, lineup, isHome }: Props) {
           >
             {column.map((player) => (
               <Popover
+                trigger={isMobileScreen ? "click" : "hover"}
                 content={
                   <Link href={"/players/" + player.id}>{player.name}</Link>
                 }

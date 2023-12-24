@@ -74,8 +74,12 @@ export default async function Home() {
     GetDate(1, 1).yesterday
   );
   const fixtures_live: fixtureResponse = await GetLive();
-  const standings: StandingsResponse = await GetStandings(140);
-  const topScorers: TopScorersResponse = await GetTopScorers(140);
+  const standings: StandingsResponse = await GetStandings(
+    getRandomItem([39, 140, 78, 135, 61, 307, 71, 88])
+  );
+  const topScorers: TopScorersResponse = await GetTopScorers(
+    getRandomItem([39, 140, 78, 135, 61, 307, 71, 88])
+  );
   return (
     <Main
       live={fixtures_live}
@@ -140,4 +144,9 @@ function RemoveLiveMatches(input: FixturesData[]): FixturesData[] {
     return !arrayCatcher.includes(item.fixture.status.short);
   });
   return filtered;
+}
+
+function getRandomItem<T>(array: T[]): T {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
 }

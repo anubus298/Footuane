@@ -2,3 +2,11 @@ todo :
 - add leagues /indv page
 - add teams /indv page
 - add fixtures /indv page
+
+
+
+bugs : 
+- TypeError: Cannot read properties of undefined (reading 'teams')
+    at i (/var/task/.next/server/app/fixtures/indv/[id]/page.js:9:9420)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async o (/var/task/.next/server/app/fixtures/indv/[id]/page.js:9:9654)

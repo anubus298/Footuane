@@ -9,9 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
   const date = new Date(fixture.response[0].fixture.date);
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
@@ -48,19 +50,23 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
             <div
               className="w-[90px] flex justify-center items-center cursor-pointer hover:-translate-y-1 transition"
               onClick={() =>
-                router.push(`teams/indv/${fixture.response[0].teams.home.id}`)
+                router.push(
+                  `teams/indv/${fixture.response[0]?.teams?.home?.id}`
+                )
               }
             >
-              <Image
-                alt={fixture.response[0].teams.home.name + " logo"}
-                src={fixture.response[0].teams.home.logo}
-                height={90}
-                width={90}
-                className="h-auto"
-              />
+              {fixture.response[0]?.teams?.home?.logo && (
+                <Image
+                  alt={fixture.response[0]?.teams?.home?.name + " logo"}
+                  src={fixture.response[0]?.teams?.home?.logo}
+                  height={isMobileScreen ? 60 : 90}
+                  width={isMobileScreen ? 60 : 90}
+                  className="h-auto"
+                />
+              )}
             </div>
             <p className="w-[100px] text-xs md:text-2xl text-center md:text-start md:w-[150px]">
-              {fixture.response[0].teams.home.name}
+              {fixture.response[0]?.teams?.home?.name}
             </p>
           </div>
 
@@ -135,21 +141,25 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
           {/*away team */}
           <div className="flex flex-col-reverse items-center justify-end gap-3 md:justify-center md:flex-row ">
             <p className="w-[100px] text-xs md:text-2xl text-center md:text-end  md:w-[150px] ">
-              {fixture.response[0].teams.away.name}
+              {fixture.response[0]?.teams?.away?.name}
             </p>
             <div
               className="w-[90px] flex justify-center items-center cursor-pointer hover:-translate-y-1 transition"
               onClick={() =>
-                router.push(`teams/indv/${fixture.response[0].teams.away.id}`)
+                router.push(
+                  `teams/indv/${fixture.response[0]?.teams?.away?.id}`
+                )
               }
             >
-              <Image
-                alt={fixture.response[0].teams.away.name + " logo"}
-                src={fixture.response[0].teams.away.logo}
-                height={90}
-                width={90}
-                className="w-auto h-auto"
-              />
+              {fixture.response[0]?.teams?.away?.logo && (
+                <Image
+                  alt={fixture.response[0]?.teams?.away?.name + " logo"}
+                  src={fixture.response[0]?.teams?.away?.logo}
+                  height={isMobileScreen ? 60 : 90}
+                  width={isMobileScreen ? 60 : 90}
+                  className="w-auto h-auto"
+                />
+              )}
             </div>
           </div>
         </div>
