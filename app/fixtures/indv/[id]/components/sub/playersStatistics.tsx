@@ -55,14 +55,13 @@ function PlayersStatistics({ players }: { players: Players[] }) {
           minutes: player.statistics[0].games.minutes || 0,
           rating: (
             <p
-            className={
-                (player.statistics[0].games.rating || 0) >= 7
+              className={
+                parseFloat(player.statistics[0].games.rating || "0") >= 7
                   ? "text-green-500"
-                  : (player.statistics[0].games.rating || 0) > 5
+                  : parseFloat(player.statistics[0].games.rating || "0") > 5
                   ? "text-yellow-400"
                   : "text-red-600"
               }
-              
             >
               {player.statistics[0].games.rating || "N/A"}
             </p>
@@ -174,8 +173,8 @@ function PlayersStatistics({ players }: { players: Players[] }) {
           Players Statistics
         </h3>
         <Collapse
-        size="small"
-    expandIconPosition="end"
+          size="small"
+          expandIconPosition="end"
           className="text-sm"
           items={[
             {
