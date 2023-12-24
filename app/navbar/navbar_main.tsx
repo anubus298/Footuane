@@ -44,14 +44,14 @@ function Navbar_Main() {
       <Menu>
         <div className="relative z-20 hidden md:block">
           <Menu.Button className={""}>LEAGUES</Menu.Button>
-          <Menu.Items
+          <Menu.Items 
             className={
               "absolute flex flex-col bg-primary-first bg-opacity-90 gap-3 top-10 *:px-2 *:text-xs w-48 py-3 text-primary-second"
             }
           >
             {Object.keys(leaguesIds).map((league, index) => {
               return (
-                <Menu.Item key={102 + index * 2}>
+                <Menu.Item disabled key={102 + index * 2}>
                   {({ active }) => (
                     <Link href={`leagues/indv/${leaguesIds[league]}`} className={`${active && "text-white"}`}>
                       {league}

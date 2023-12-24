@@ -13,7 +13,7 @@ interface PlayerData {
   fouls: string;
   assists: number | null;
   minutes: number | null;
-  rating: any;
+  rating: number | JSX.Element;
   scored: number | null;
   shots: number | null;
   tackles: number | null;
@@ -82,7 +82,6 @@ function PlayersStatistics({ players }: { players: Players[] }) {
       dataIndex: "player",
       key: "player",
     },
-
     {
       title: "Dribbles",
       dataIndex: "dribbles",
