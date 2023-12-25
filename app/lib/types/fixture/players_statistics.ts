@@ -103,8 +103,8 @@ export interface PlayersStatisticsResponse {
     current: number;
     total: number;
   };
-  response: {
-    team: Team;
-    players: PlayersStatistics[];
+  response?: {
+    team?: Team;
+    players?: PlayersStatistics[];
   }[];
 }

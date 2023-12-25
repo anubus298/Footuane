@@ -238,5 +238,5 @@ export interface FixtureIndvResponse {
     current: number;
     total: number;
   };
-  response: MatchData[];
+  response?: MatchData[];
 }

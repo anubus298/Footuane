@@ -3,22 +3,17 @@
 @tailwind utilities;
 
 body {
-  background: radial-gradient(
-    100% 100% at 50% 100%,
-    #defe54 0%,
-    #1c200a 0.01%,
-    #181818 96.62%
-  ) !important;
+  background: radial-gradient(63% 63% at 50% 136.2%, #161714 0%, #701018 0.01%, #171614 96.62%) !important;
 }
 
 .selected-nav {
-  @apply before:h-2 before:w-full before:bg-primary-second before:content-[''] before:absolute  before:top-12 text-primary-second;
+  @apply before:h-2 before:w-full before:bg-primary-second before:content-[''] before:absolute  before:top-[40px] text-primary-second;
 }
 .card {
   @apply flex items-center justify-center w-5 p-1 text-sm rounded-sm h-7;
 }
 .card-small {
-  @apply flex items-center justify-center w-3 p-1 text-sm rounded-sm h-5;
+  @apply flex items-center justify-center w-3 h-5 p-1 text-sm rounded-sm;
 }
 .place-center {
   @apply justify-center items-center
@@ -28,5 +23,12 @@ body {
   color :#defe54 !important
 }
 
+.swiper-button-next,
+.swiper-button-prev {
+    right:10px;
+    padding: 30px;
+    color: #fd3546 !important;
+    stroke: black !important;
+}
 
 

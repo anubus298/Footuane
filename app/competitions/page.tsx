@@ -1,5 +1,7 @@
+import Competitions_main from "./components/competitions_main";
+
 function Competitions() {
-    return ( <div className="">competitions</div> );
+    return ( <Competitions_main/> );
 }
 
 export default Competitions;

@@ -21,8 +21,8 @@ interface PlayerData {
   offsides: number | null;
 }
 
-function PlayersStatistics({ players }: { players: Players[] }) {
-  const dataHomeSource: PlayerData[][] = players.map((gen) => {
+function PlayersStatistics({ players }: { players?: Players[] }) {
+  const dataHomeSource: PlayerData[][] | undefined = players?.map((gen) => {
     return gen.players
       .filter((player) => player.statistics[0].games.minutes != 0)
       .map((player) => {
@@ -168,78 +168,88 @@ function PlayersStatistics({ players }: { players: Players[] }) {
         },
       }}
     >
-      <div className="p-1 text-white bg-opacity-50 md:p-3 bg-primary-first">
-        <h3 className="mb-3 text-2xl font-semibold text-primary-second">
-          Players Statistics
-        </h3>
-        <Collapse
-          size="small"
-          expandIconPosition="end"
-          className="text-sm"
-          items={[
-            {
-              key: "1",
-              label: (
-                <div className="flex items-center gap-2">
-                  <Image
-                    alt=""
-                    src={players[0].team.logo}
-                    height={isMobileScreen ? 25 : 30}
-                    width={isMobileScreen ? 25 : 30}
+      {dataHomeSource?.[0] && dataHomeSource?.[1] && (
+        <div className="p-1 text-white bg-opacity-40 md:p-3 bg-primary-first">
+          <h3 className="mb-3 text-2xl font-semibold text-primary-second">
+            Players Statistics
+          </h3>
+          <Collapse
+            size="small"
+            expandIconPosition="end"
+            className="text-sm"
+            items={[
+              {
+                key: "1",
+                label: (
+                  <div className="flex items-center gap-2">
+                    {players?.[0]?.team?.logo && (
+                      <Image
+                        alt=""
+                        src={players[0].team.logo}
+                        height={isMobileScreen ? 25 : 30}
+                        width={isMobileScreen ? 25 : 30}
+                      />
+                    )}
+                    {players?.[0]?.team?.name && (
+                      <h4 className="text-xl font-semibold text-white">
+                        {players[0].team.name}
+                      </h4>
+                    )}
+                  </div>
+                ),
+                children: dataHomeSource?.[0] && (
+                  <Table
+                    size="small"
+                    rowClassName={"h-[40px] overflow-hidden"}
+                    pagination={{
+                      position: ["bottomRight", "bottomRight"],
+                      defaultPageSize: 11,
+                      pageSize: 11,
+                    }}
+                    className="w-full text-sm text-white md:text-base"
+                    dataSource={dataHomeSource[0]}
+                    columns={columns}
                   />
-                  <h4 className="text-xl font-semibold text-primary-second">
-                    {players[0].team.name}
-                  </h4>
-                </div>
-              ),
-              children: (
-                <Table
-                  size="small"
-                  rowClassName={"h-[40px] overflow-hidden"}
-                  pagination={{
-                    position: ["bottomRight", "bottomRight"],
-                    defaultPageSize: 11,
-                    pageSize: 11,
-                  }}
-                  className="w-full text-sm text-white md:text-base"
-                  dataSource={dataHomeSource[0]}
-                  columns={columns}
-                />
-              ),
-            },
-            {
-              key: "2",
-              label: (
-                <div className="flex items-center gap-2">
-                  <Image
-                    alt=""
-                    src={players[1].team.logo}
-                    height={isMobileScreen ? 25 : 30}
-                    width={isMobileScreen ? 25 : 30}
+                ),
+              },
+              {
+                key: "2",
+                label: (
+                  <div className="flex items-center gap-2">
+                    {players?.[1]?.team && (
+                      <>
+                        <Image
+                          alt=""
+                          src={players[1].team.logo}
+                          height={isMobileScreen ? 25 : 30}
+                          width={isMobileScreen ? 25 : 30}
+                        />
+                        <h4 className="text-xl font-semibold text-white">
+                          {players[1].team.name}
+                        </h4>
+                      </>
+                    )}
+                  </div>
+                ),
+                children: dataHomeSource?.[1] && (
+                  <Table
+                    size="small"
+                    rowClassName={"h-[40px] overflow-hidden"}
+                    pagination={{
+                      position: ["bottomRight", "bottomRight"],
+                      defaultPageSize: 11,
+                      pageSize: 11,
+                    }}
+                    className="w-full text-sm text-white md:text-base "
+                    dataSource={dataHomeSource[1]}
+                    columns={columns}
                   />
-                  <h4 className="text-xl font-semibold text-primary-second">
-                    {players[1].team.name}
-                  </h4>
-                </div>
-              ),
-              children: (
-                <Table
-                  size="small"
-                  rowClassName={"h-[40px] overflow-hidden"}
-                  pagination={{
-                    position: ["bottomRight", "bottomRight"],
-                    defaultPageSize: 11,
-                    pageSize: 11,
-                  }}
-                  className="w-full text-sm text-white md:text-base "
-                  dataSource={dataHomeSource[1]}
-                  columns={columns}
-                />
-              ),
-            },
-          ]}
-        />
-      </div>
+                ),
+              },
+            ]}
+          />
+        </div>
+      )}
     </ConfigProvider>
   );
 }

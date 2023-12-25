@@ -1,6 +1,5 @@
 export const leaguesIds: Record<string, number> = {
   "UEFA Champions League": 2,
-  "FIFA World Cup": 1,
   "English Premier League": 39,
   "La Liga (Spain)": 140,
   "Bundesliga (Germany)": 78,

@@ -8,7 +8,9 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./styles/globals.css";
 import "./styles/loader.css";
 import 'swiper/css';
+import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import FooterComp from "./footer/footer";
 const inter = Oswald({
   subsets: ["latin"],
   weight: ["200","200", "300", "400", "500", "600", "700"],
@@ -33,6 +35,7 @@ export default function RootLayout({
           },
           token: {
             fontFamily: "var(--font-Oswald)",
+            colorBgElevated : "#F1F2EB"
           },
         }}
       >
@@ -41,7 +44,8 @@ export default function RootLayout({
         >
           <StyledComponentsRegistry>
             <Navbar_main />
-            <div className="container mx-auto">{children}</div>
+            <div className="container min-h-screen mx-auto">{children}</div>
+            <FooterComp/>
           </StyledComponentsRegistry>
         </body>
       </ConfigProvider>

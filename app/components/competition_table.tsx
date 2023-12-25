@@ -79,14 +79,14 @@ function Competition_table(props: Props) {
     <ConfigProvider
       theme={{
         token: {
-          colorBgContainer: "#f0f0f000",
+          colorBgContainer: "rgba(31, 50, 72, 0.2)",
           colorText: "#f0f0f0",
         },
         components: {
           Table: {
             cellPaddingBlock: 4,
             cellPaddingInlineMD: 4,
-            headerColor: "#defe54",
+            headerColor: "#FD3546",
             rowSelectedBg: "#a66cff",
           },
         },
@@ -100,7 +100,7 @@ function Competition_table(props: Props) {
           pagination={{
             position: ["bottomRight", "bottomRight"],
           }}
-          className="w-full text-white h-full "
+          className="w-full h-full text-white "
           dataSource={dataSource}
           columns={columns}
         />

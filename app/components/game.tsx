@@ -49,7 +49,7 @@ function Game(props: CompProps) {
   return (
     <div className="items-center w-full gap-2 p-3 select-none">
       <p className="text-sm font-semibold ">{formattedDate}</p>
-      <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-50 flex w-full h-[100px] md:h-[70px]">
+      <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-40 flex w-full h-[100px] md:h-[70px]">
         <div className="w-10/12 flex items-center *:w-1/3">
           <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
             <div
@@ -148,7 +148,7 @@ function Game(props: CompProps) {
           </div>
         </div>
         <div className="flex justify-end w-2/12">
-          <div className=" size-[45px] bg-primary-second rounded-sm  overflow-hidden flex place-center p-1">
+          <div className=" size-[45px] bg-white rounded-sm  overflow-hidden flex place-center p-1">
             <Image
             onClick={() =>
               router.push(`/leagues/indv/${props.fixture.league.id}`)

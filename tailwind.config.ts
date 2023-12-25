@@ -11,9 +11,10 @@ const config: Config = {
     extend: {
       colors: {
         "primary-lime-green": "#181818",
-        "primary-first": "#313131",
-        "primary-second": "#defe54",
+        "primary-first": "#1f3248",
+        "primary-second": "#fd3546",
         "primary-bg": "#311D3F",
+        "white": "#F1F2EB",
         "primary-purple": "#a66cff",
         "primary-white": "#ebe9e9",
       },

@@ -44,7 +44,7 @@ function Lineups({
   const [AwaycurrentDisplayedFormation, setAwaycurrentDisplayedFormation] =
     useState(lineups[1]?.startXI);
   return (
-    <div className="flex flex-col gap-1 px-2 pt-4 text-sm font-light text-white bg-opacity-50  bg-primary-first md:text-base">
+    <div className="flex flex-col gap-1 px-2 pt-4 text-sm font-light text-white bg-opacity-40 rounded-tr-md bg-primary-first md:text-base">
       <div className="flex justify-center col-span-4 pb-3 font-medium">
         <p className="text-lg text-center text-primary-second">Teams Composition</p>
       </div>

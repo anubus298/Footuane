@@ -159,7 +159,7 @@ function Predictions({ predictions }: Props) {
   const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
   const [isComparison, setisComparison] = useState(true);
   return (
-    <div className="flex flex-col items-center justify-center p-3 text-white bg-opacity-50 h-fit bg-primary-first">
+    <div className="flex flex-col items-center justify-center p-3 text-white bg-opacity-40 h-fit bg-primary-first">
       <h3 className="mt-3 text-lg font-semibold text-primary-second">
         {isComparison ? "Comparison" : "League Stats"}
       </h3>
@@ -190,7 +190,7 @@ function Predictions({ predictions }: Props) {
         <Tooltip viewBox={{ x: 0, y: 0, width: 100, height: 50 }} />
       </RadarChart>
       <button
-        className="text-primary-second"
+        className="p-1 rounded-sm bg-primary-second text-primary-first"
         onClick={() => {
           if (isComparison) {
             setdisplayedData(prediction);

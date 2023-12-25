@@ -3,13 +3,41 @@ import { fixtureResponse, FixturesData } from "./lib/types/fixture/fixture";
 import { leaguesIds, statusShorts } from "./lib/api/ids";
 import { StandingsResponse } from "./lib/types/standings";
 import { TopScorersResponse } from "./lib/types/topScorers";
+import { ScoreBatResponse } from "./lib/types/scoreBat";
 
 export default async function Home() {
   const API_KEY: string = process.env.API_KEY!;
   let myHeaders = new Headers();
   myHeaders.append("x-apisports-key", API_KEY);
+  async function GetVideos() {
+    const res = await fetch(
+      `https://www.scorebat.com/video-api/v3/feed/?token=${process.env.VIDEO_KEY}`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        next: {
+          revalidate: 60,
+        },
+      }
+    );
+    let data: ScoreBatResponse = await res.json();
+    return data;
+  }
   async function GetFixtures(from: string) {
     const res = await fetch(process.env.API_URL + `/fixtures?date=${from}`, {
+      method: "GET",
+      headers: myHeaders,
+      next: {
+        revalidate: 3600,
+      },
+    });
+    let data: fixtureResponse = await res.json();
+    data.response = RemoveLiveMatches(data.response);
+    data.response = SortByImportance(data.response);
+    return data;
+  }
+  async function GetFixturesFromTo(from: string,to: string) {
+    const res = await fetch(process.env.API_URL + `/fixtures?from=${from}&to=${to}`, {
       method: "GET",
       headers: myHeaders,
       next: {
@@ -67,22 +95,21 @@ export default async function Home() {
     let data: TopScorersResponse = await res.json();
     return data;
   }
-  const fixtures_upcoming: fixtureResponse = await GetFixtures(
-    GetDate(0, 0).yesterday
+  const fixtures_upcoming: fixtureResponse = await GetFixturesFromTo(
+    GetDate(1, 1).yesterday,
+    GetDate(1, 1).tomorrow,
   );
   const fixtures_past: fixtureResponse = await GetFixtures(
     GetDate(1, 1).yesterday
   );
+  const videos: ScoreBatResponse = await GetVideos();
   const fixtures_live: fixtureResponse = await GetLive();
-  const standings: StandingsResponse = await GetStandings(
-    getRandomItem([39, 140, 78, 135, 61, 307, 71, 88])
-  );
-  const topScorers: TopScorersResponse = await GetTopScorers(
-    getRandomItem([39, 140, 78, 135, 61, 307, 71, 88])
-  );
+  const standings: StandingsResponse = await GetStandings(61);
+  const topScorers: TopScorersResponse = await GetTopScorers(88);
   return (
     <Main
       live={fixtures_live}
+      videos={videos}
       fixtures_upcoming={fixtures_upcoming}
       topScorers={topScorers}
       fixtures={fixtures_past}
@@ -150,3 +177,5 @@ function getRandomItem<T>(array: T[]): T {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
+
+// getRandomItem([39, 140, 78, 135, 61, 307, 71, 88])K

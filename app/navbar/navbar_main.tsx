@@ -1,4 +1,5 @@
 "use client";
+import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,6 +17,7 @@ function Navbar_Main() {
   const [ReferenceClass, setReferenceClass] = useState(
     Object.values(list).map(() => false)
   );
+  const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
 
   useEffect(() => {
     function ChangeNavbar() {
@@ -34,66 +36,68 @@ function Navbar_Main() {
     ChangeNavbar();
   }, [params]);
   return (
-    <nav className="flex items-center justify-between w-full p-1 px-8 mb-2 font-semibold text-white uppercase bg-primary-lime-green md:text-lg">
-      <Image
-        height={60}
-        width={60}
-        alt="Footuane logo"
-        src={"/main_logo.svg"}
-      />
-      <Menu>
-        <div className="relative z-20 hidden md:block">
-          <Menu.Button className={""}>LEAGUES</Menu.Button>
-          <Menu.Items 
-            className={
-              "absolute flex flex-col bg-primary-first bg-opacity-90 gap-3 top-10 *:px-2 *:text-xs w-48 py-3 text-primary-second"
-            }
-          >
-            {Object.keys(leaguesIds).map((league, index) => {
-              return (
-                <Menu.Item disabled key={102 + index * 2}>
-                  {({ active }) => (
-                    <Link href={`leagues/indv/${leaguesIds[league]}`} className={`${active && "text-white"}`}>
-                      {league}
-                    </Link>
-                  )}
-                </Menu.Item>
-              );
+    <nav className="flex items-center justify-between w-full p-1 px-8 mb-6 font-semibold text-white uppercase bg-primary-lime-green md:text-lg">
+      <Image height={60} width={60} alt="Footuane logo" src={"/logo193.png"} />
+      {!isMobileScreen && (
+        <>
+          <Menu>
+            <div className="relative z-20 hidden md:block">
+              <Menu.Button className={""}>LEAGUES</Menu.Button>
+              <Menu.Items
+                className={
+                  "absolute flex flex-col bg-primary-lime-green bg-opacity-90 gap-3 top-10 *:px-2 *:text-xs w-48 py-3 text-primary-second"
+                }
+              >
+                {Object.keys(leaguesIds).map((league, index) => {
+                  return (
+                    <Menu.Item disabled key={102 + index * 2}>
+                      {({ active }) => (
+                        <Link
+                          href={`leagues/indv/${leaguesIds[league]}`}
+                          className={`${active && "text-white"}`}
+                        >
+                          {league}
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  );
+                })}
+              </Menu.Items>
+            </div>
+          </Menu>
+          <ul className="flex items-center justify-center gap-4">
+            {Object.keys(list).map((key, index) => {
+              if (key !== "home") {
+                return (
+                  <Link
+                    key={index * 45 + 874564}
+                    className={
+                      "hover:text-primary-second relative " +
+                      (ReferenceClass[index] && "selected-nav")
+                    }
+                    href={"/" + list[key].toLowerCase()}
+                  >
+                    {key}
+                  </Link>
+                );
+              } else {
+                return (
+                  <Link
+                    key={index * 45 + 874564}
+                    className={
+                      "hover:text-primary-second relative " +
+                      (ReferenceClass[index] && "selected-nav")
+                    }
+                    href={"/"}
+                  >
+                    home
+                  </Link>
+                );
+              }
             })}
-          </Menu.Items>
-        </div>
-      </Menu>
-      <ul className="flex items-center justify-center gap-4">
-        {Object.keys(list).map((key, index) => {
-          if (key !== "home") {
-            return (
-              <Link
-                key={index * 45 + 874564}
-                className={
-                  "hover:text-primary-second relative " +
-                  (ReferenceClass[index] && "selected-nav")
-                }
-                href={"/" + list[key].toLowerCase()}
-              >
-                {key}
-              </Link>
-            );
-          } else {
-            return (
-              <Link
-                key={index * 45 + 874564}
-                className={
-                  "hover:text-primary-second relative " +
-                  (ReferenceClass[index] && "selected-nav")
-                }
-                href={"/"}
-              >
-                home
-              </Link>
-            );
-          }
-        })}
-      </ul>
+          </ul>
+        </>
+      )}
     </nav>
   );
 }

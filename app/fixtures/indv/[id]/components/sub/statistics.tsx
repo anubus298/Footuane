@@ -183,7 +183,7 @@ function Statistics({ statistics, awayColor, homeColor, players }: Props) {
     );
   }, []);
   return (
-    <div className="p-2 py-4 text-white bg-opacity-50 select-none bg-primary-first">
+    <div className="p-2 py-4 text-white bg-opacity-40 select-none bg-primary-first">
       <h3 className="mb-2 text-2xl font-semibold text-center text-primary-second">
         Statistics{" "}
       </h3>

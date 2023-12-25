@@ -1,7 +1,3 @@
-"use client";
-
-import { statusShorts } from "@/app/lib/api/ids";
-import { FixtureIndvResponse } from "@/app/lib/types/fixture/fixtureIndv";
 import {
   faCalendarDay,
   faFlagCheckered,
@@ -12,53 +8,62 @@ import Image from "next/image";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FixtureIndvResponse } from "@/app/lib/types/fixture/fixtureIndv";
+import { statusShorts } from "@/app/lib/api/ids";
+
+// Pallete_main component
 function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
   const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
-  const date = new Date(fixture.response[0].fixture.date);
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
+  const router = useRouter();
+
+  const homeTeam = fixture?.response?.[0]?.teams?.home;
+  const awayTeam = fixture?.response?.[0]?.teams?.away;
+  const goals = fixture?.response?.[0]?.goals;
+  const fixtureInfo = fixture?.response?.[0]?.fixture;
+  const date = new Date();
+  const formattedDate = date.toLocaleString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
     hour12: false,
-  }).format(date);
+  });
 
-  const [elapsed, setelapsed] = useState(
-    fixture?.response[0].fixture.status?.elapsed
+  const [elapsed, setElapsed] = useState(
+    fixtureInfo?.status?.elapsed ?? 0
   );
-  const router = useRouter();
+
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
     if (elapsed) {
       intervalId = setInterval(() => {
-        setelapsed((prevElapsed) => (prevElapsed || 0) + 1);
+        setElapsed((prevElapsed) => (prevElapsed || 0) + 1);
       }, 60000);
     }
 
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [elapsed]);
+
+  const prettyDate = getPrettyDate(fixtureInfo?.date || "");
+
   return (
     <div className="items-center w-full gap-2 text-white select-none">
-      <div className="items-center rounded-sm bg-primary-first bg-opacity-50 flex w-full h-[140px] md:h-[180px]">
+      <div className="items-center rounded-tl-md bg-primary-first bg-opacity-40 flex w-full h-[140px] md:h-[180px]">
         <div className="w-full flex items-center *:w-1/3 h-full">
-          {/*home team */}
+          {/* Home team */}
           <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
             <div
               className="w-[90px] flex justify-center items-center cursor-pointer hover:-translate-y-1 transition"
-              onClick={() =>
-                router.push(
-                  `teams/indv/${fixture.response[0]?.teams?.home?.id}`
-                )
-              }
+              onClick={() => router.push(`/teams/indv/${homeTeam?.id}`)}
             >
-              {fixture.response[0]?.teams?.home?.logo && (
+              {homeTeam?.logo && (
                 <Image
-                  alt={fixture.response[0]?.teams?.home?.name + " logo"}
-                  src={fixture.response[0]?.teams?.home?.logo}
+                  alt={`${homeTeam?.name} logo`}
+                  src={homeTeam?.logo}
                   height={isMobileScreen ? 60 : 90}
                   width={isMobileScreen ? 60 : 90}
                   className="h-auto"
@@ -66,50 +71,38 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
               )}
             </div>
             <p className="w-[100px] text-xs md:text-2xl text-center md:text-start md:w-[150px]">
-              {fixture.response[0]?.teams?.home?.name}
+              {homeTeam?.name}
             </p>
           </div>
 
-          {/*middle  */}
+          {/* Middle */}
           <div className="flex flex-col items-center h-full gap-2 justify-evenly md:text-2xl">
             <div className="flex flex-col items-center justify-between gap-2">
-              {/*score */}
-              <h4 className="text-xl">
-                {fixture.response[0].fixture.status.long}
-              </h4>
+              {/* Score */}
+              <h4 className="text-xl">{fixtureInfo?.status?.long}</h4>
               <div className="flex items-center gap-2">
-                <p
-                  className={
-                    fixture.response[0].goals.home >
-                    fixture.response[0].goals.away
-                      ? ""
-                      : fixture.response[0].goals.home ===
-                        fixture.response[0].goals.away
-                      ? ""
-                      : "text-gray-500"
-                  }
-                >
-                  {fixture.response[0].goals.home ?? "-"}
-                </p>
-                <p
-                  className={
-                    fixture.response[0].goals.away >
-                    fixture.response[0].goals.home
-                      ? ""
-                      : fixture.response[0].goals.home ===
-                        fixture.response[0].goals.away
-                      ? ""
-                      : "text-gray-500"
-                  }
-                >
-                  {fixture.response[0].goals.away ?? "-"}
-                </p>
+                {goals?.home && goals?.away && (
+                  <>
+                    <p
+                      className={
+                        goals?.home > goals?.away ? "" : "text-gray-500"
+                      }
+                    >
+                      {goals?.home ?? "-"}
+                    </p>
+                    <p
+                      className={
+                        goals?.away > goals?.home ? "" : "text-gray-500"
+                      }
+                    >
+                      {goals?.away ?? "-"}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
-            {/*if in_play show current time*/}
-            {statusShorts.in_play.includes(
-              fixture.response[0].fixture.status.short
-            ) && (
+            {/* If in_play show current time */}
+            {statusShorts.in_play.includes(fixtureInfo?.status?.short || "") && (
               <div className="flex items-center gap-1 text-primary-second">
                 <p className="font-semibold ">{elapsed}&apos;</p>
                 <FontAwesomeIcon
@@ -119,42 +112,34 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
                 />
               </div>
             )}
-            {/*if finished show ago*/}
+            {/* If finished show ago */}
             {(statusShorts.finished + "-" + statusShorts.scheduled)
               .split("-")
-              .includes(fixture.response[0].fixture.status.short) && (
-              <p className="text-primary-second">
-                {getPrettyDate(fixture.response[0].fixture.date)}
-              </p>
+              .includes(fixtureInfo?.status?.short || "") && (
+              <p className="text-primary-second">{prettyDate}</p>
             )}
-            {statusShorts.first_half ===
-              fixture.response[0].fixture.status.short && (
+            {statusShorts.first_half === fixtureInfo?.status.short && (
               <p className="text-primary-second">First Half</p>
             )}
-            {statusShorts.penalty ===
-              fixture.response[0].fixture.status.short && (
+            {statusShorts.penalty === fixtureInfo?.status.short && (
               <p className="text-primary-second">Penalty in Progress</p>
             )}
             <p className="text-xs">{formattedDate}</p>
           </div>
 
-          {/*away team */}
+          {/* Away team */}
           <div className="flex flex-col-reverse items-center justify-end gap-3 md:justify-center md:flex-row ">
             <p className="w-[100px] text-xs md:text-2xl text-center md:text-end  md:w-[150px] ">
-              {fixture.response[0]?.teams?.away?.name}
+              {awayTeam?.name}
             </p>
             <div
               className="w-[90px] flex justify-center items-center cursor-pointer hover:-translate-y-1 transition"
-              onClick={() =>
-                router.push(
-                  `teams/indv/${fixture.response[0]?.teams?.away?.id}`
-                )
-              }
+              onClick={() => router.push(`/teams/indv/${awayTeam?.id}`)}
             >
-              {fixture.response[0]?.teams?.away?.logo && (
+              {awayTeam?.logo && (
                 <Image
-                  alt={fixture.response[0]?.teams?.away?.name + " logo"}
-                  src={fixture.response[0]?.teams?.away?.logo}
+                  alt={`${awayTeam?.name} logo`}
+                  src={awayTeam?.logo}
                   height={isMobileScreen ? 60 : 90}
                   width={isMobileScreen ? 60 : 90}
                   className="w-auto h-auto"
@@ -168,6 +153,7 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
   );
 }
 
+// Helper function for date formatting
 function getPrettyDate(date: string): string {
   const targetDate = new Date(date);
   const currentDate = new Date();

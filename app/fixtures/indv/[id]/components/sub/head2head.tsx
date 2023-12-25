@@ -20,7 +20,7 @@ interface Props {
 }
 function HeadToHead({ headToheads ,teams}: Props) {
   return (
-    <div className="px-1 py-3 text-white bg-opacity-50 md:px-4 bg-primary-first">
+    <div className="px-1 py-3 text-white bg-opacity-40 md:px-4 bg-primary-first">
       <div className="flex items-center gap-4">
         <p className="text-2xl font-semibold text-primary-second">
           Previous Encounters
