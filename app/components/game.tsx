@@ -6,11 +6,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { statusShorts } from "../lib/api/ids";
-import { FixturesData } from "../lib/types/fixture/fixture";
+import { FixtureData } from "../lib/types/fixture/fixture";
 
 interface CompProps {
-  fixture: FixturesData;
-  type: string;
+  fixture: FixtureData;
+  showLeague: boolean;
 }
 function Game(props: CompProps) {
   const [elapsed, setelapsed] = useState(
@@ -50,7 +50,12 @@ function Game(props: CompProps) {
     <div className="items-center w-full gap-2 p-3 select-none">
       <p className="text-sm font-semibold ">{formattedDate}</p>
       <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-40 flex w-full h-[100px] md:h-[70px]">
-        <div className="w-10/12 flex items-center *:w-1/3">
+        <div
+          className={
+            "flex items-center *:w-1/3 " +
+            (props.showLeague ? "w-10/12" : "w-full")
+          }
+        >
           <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
             <div
               className="w-[35px]  cursor-pointer hover:-translate-y-1 transition"
@@ -79,22 +84,24 @@ function Game(props: CompProps) {
             <div className="flex items-center gap-2">
               <p
                 className={
-                  props.fixture.goals.home > props.fixture.goals.away
+                  "font-normal " +
+                  (props.fixture.goals.home > props.fixture.goals.away
                     ? ""
                     : props.fixture.goals.home === props.fixture.goals.away
                     ? ""
-                    : "text-gray-500"
+                    : "text-gray-500")
                 }
               >
                 {props.fixture.goals.home ?? "-"}
               </p>
               <p
                 className={
-                  props.fixture.goals.away > props.fixture.goals.home
+                  "font-normal " +
+                  (props.fixture.goals.away > props.fixture.goals.home
                     ? ""
                     : props.fixture.goals.home === props.fixture.goals.away
                     ? ""
-                    : "text-gray-500"
+                    : "text-gray-500")
                 }
               >
                 {props.fixture.goals.away ?? "-"}
@@ -105,7 +112,7 @@ function Game(props: CompProps) {
               props.fixture.fixture.status.short
             ) && (
               <div className="flex items-center gap-1 text-primary-second">
-                <p className="font-semibold ">{elapsed}&apos;</p>
+                <p className="font-normal ">{elapsed}&apos;</p>
                 <FontAwesomeIcon
                   icon={faSoccerBall}
                   bounce
@@ -117,17 +124,22 @@ function Game(props: CompProps) {
             {(statusShorts.finished + "-" + statusShorts.scheduled)
               .split("-")
               .includes(props.fixture.fixture.status.short) && (
-              <p>{getPrettyDate(props.fixture.fixture.date)}</p>
+              <p className="font-normal">
+                {getPrettyDate(props.fixture.fixture.date)}
+              </p>
             )}
             {statusShorts.first_half === props.fixture.fixture.status.short && (
-              <p>First Half</p>
+              <p className="font-normal">First Half</p>
             )}
             {statusShorts.penalty === props.fixture.fixture.status.short && (
-              <p>Penalty in Progress</p>
+              <p className="font-normal">Penalty in Progress</p>
             )}
           </div>
 
           <div className="flex flex-col items-center justify-end gap-3 md:flex-row ">
+            <p className="w-[50px] text-xs md:text-base text-center md:text-end  md:w-[80px]">
+              {props.fixture.teams.away.name}
+            </p>
             <div
               className="w-[35px] cursor-pointer hover:-translate-y-1 transition"
               onClick={() =>
@@ -142,29 +154,28 @@ function Game(props: CompProps) {
                 className="w-auto h-auto"
               />
             </div>
-            <p className="w-[50px] text-xs md:text-base text-center md:text-start  md:w-[80px]">
-              {props.fixture.teams.away.name}
-            </p>
           </div>
         </div>
-        <div className="flex justify-end w-2/12">
-          <div className=" size-[45px] bg-white rounded-sm  overflow-hidden flex place-center p-1">
-            <Image
-            onClick={() =>
-              router.push(`/leagues/indv/${props.fixture.league.id}`)
-            }
-              alt={
-                props.fixture.league.name +
-                " logo: " +
-                props.fixture.league.country
-              }
-              src={props.fixture.league.logo}
-              height={35}
-              width={35}
-              className="h-auto transition cursor-pointer hover:-translate-y-1 "
-            />
+        {props.showLeague && (
+          <div className="flex justify-end w-2/12">
+            <div className=" size-[45px] bg-white rounded-sm  overflow-hidden flex place-center p-1">
+              <Image
+                onClick={() =>
+                  router.push(`/leagues/indv/${props.fixture.league.id}`)
+                }
+                alt={
+                  props.fixture.league.name +
+                  " logo: " +
+                  props.fixture.league.country
+                }
+                src={props.fixture.league.logo}
+                height={35}
+                width={35}
+                className="h-auto transition cursor-pointer hover:-translate-y-1 "
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -219,6 +230,5 @@ function getPrettyDate(date: string): string {
     return "Now";
   }
 }
-
 
 export default Game;

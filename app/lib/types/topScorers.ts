@@ -117,7 +117,7 @@ export interface Statistics {
   penalty: Penalty;
 }
 
-export interface TopScorersResponse {
+export interface TopResponse {
   get: string;
   parameters: {
     league: string;

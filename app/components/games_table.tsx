@@ -4,7 +4,7 @@ import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { StandingsTeam } from "../lib/types/standings";
-import { FixturesData } from "../lib/types/fixture/fixture";
+import { FixtureData } from "../lib/types/fixture/fixture";
 import { Player, Statistics } from "../lib/types/topScorers";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -15,9 +15,9 @@ import TopScorersTable from "./topScorers_table";
 import React from "react";
 
 interface MainProps {
-  fixtures?: FixturesData[];
+  fixtures?: FixtureData[];
   type: string;
-  result?: FixturesData[];
+  result?: FixtureData[];
   direction: string;
   standings?: {
     id?: number;
@@ -125,7 +125,7 @@ function GamesTable(props: MainProps) {
               >
                 {props?.fixtures?.map((item, index) => (
                   <SwiperSlide key={index * 453}>
-                    <Game fixture={item} type={props.type} />
+                    <Game fixture={item} showLeague={true} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -147,10 +147,10 @@ function GamesTable(props: MainProps) {
           className={`flex items-center justify-center col-span-2 py-2 md:py-4`}
         >
           {props.standings?.standings && (
-            <CompetitionTable standings={props.standings?.standings} />
+            <CompetitionTable type="cut" standings={props.standings?.standings} />
           )}
           {props.topScorers && (
-            <TopScorersTable topScorers={props.topScorers} />
+            <TopScorersTable topScorers={props.topScorers} type="cut"/>
           )}
         </div>
       </div>

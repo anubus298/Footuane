@@ -1,6 +1,4 @@
 import {
-  faCalendarDay,
-  faFlagCheckered,
   faSoccerBall,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +18,7 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
   const awayTeam = fixture?.response?.[0]?.teams?.away;
   const goals = fixture?.response?.[0]?.goals;
   const fixtureInfo = fixture?.response?.[0]?.fixture;
-  const date = new Date();
+  const date = new Date(fixture?.response?.[0]?.fixture?.date || "");
   const formattedDate = date.toLocaleString("en-US", {
     year: "numeric",
     month: "short",
@@ -30,9 +28,7 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
     hour12: false,
   });
 
-  const [elapsed, setElapsed] = useState(
-    fixtureInfo?.status?.elapsed ?? 0
-  );
+  const [elapsed, setElapsed] = useState(fixtureInfo?.status?.elapsed ?? 0);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -81,28 +77,31 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
               {/* Score */}
               <h4 className="text-xl">{fixtureInfo?.status?.long}</h4>
               <div className="flex items-center gap-2">
-                {goals?.home && goals?.away && (
-                  <>
-                    <p
-                      className={
-                        goals?.home > goals?.away ? "" : "text-gray-500"
-                      }
-                    >
-                      {goals?.home ?? "-"}
-                    </p>
-                    <p
-                      className={
-                        goals?.away > goals?.home ? "" : "text-gray-500"
-                      }
-                    >
-                      {goals?.away ?? "-"}
-                    </p>
-                  </>
-                )}
+                {typeof goals?.home === "number" &&
+                  typeof goals?.away === "number" && (
+                    <>
+                      <p
+                        className={
+                          goals?.home > goals?.away ? "" : "text-gray-500"
+                        }
+                      >
+                        {goals?.home ?? "-"}
+                      </p>
+                      <p
+                        className={
+                          goals?.away > goals?.home ? "" : "text-gray-500"
+                        }
+                      >
+                        {goals?.away ?? "-"}
+                      </p>
+                    </>
+                  )}
               </div>
             </div>
             {/* If in_play show current time */}
-            {statusShorts.in_play.includes(fixtureInfo?.status?.short || "") && (
+            {statusShorts.in_play.includes(
+              fixtureInfo?.status?.short || ""
+            ) && (
               <div className="flex items-center gap-1 text-primary-second">
                 <p className="font-semibold ">{elapsed}&apos;</p>
                 <FontAwesomeIcon

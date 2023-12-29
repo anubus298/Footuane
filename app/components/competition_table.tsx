@@ -4,9 +4,11 @@ import type { ColumnsType } from "antd/es/table";
 import { StandingsTeam } from "../lib/types/standings";
 import Image from "next/image";
 import Table from "antd/es/table";
-import { ConfigProvider } from "antd";
+import { Collapse, ConfigProvider } from "antd";
+import Link from "next/link";
 interface Props {
   standings: StandingsTeam[];
+  type: "full" | "cut";
 }
 
 interface TeamInfo {
@@ -27,20 +29,28 @@ function Competition_table(props: Props) {
       goalsFor: team.all.goals.for,
       points: team.points,
       team: (
-        <div className="flex items-center gap-2">
-          <Image
-            src={team.team.logo}
-            alt={team.team.name + " logo"}
-            height={30}
-            width={30}
-            className="h-auto"
-          />
-          <p>{team.team.name}</p>
+        <div className="flex items-center gap-2 w-[160px]">
+          <Link href={"/teams/indv/" + team.team.id} className="flex items-center gap-2">
+            <Image
+              src={team.team.logo}
+              alt={team.team.name + " logo"}
+              height={30}
+              width={30}
+              className="h-auto"
+            />
+            <p>{team.team.name}</p>
+          </Link>
         </div>
       ),
+      form: <p className="text-sm text-center">{team.form}</p>,
+      goalsDiff: team.goalsDiff,
+      goalsAgainst: team.all.goals.against,
+      lose: team.all.lose,
+      draw: team.all.draw,
+      won: team.all.win,
     };
   });
-  const columns: ColumnsType<TeamInfo> = [
+  let columns: ColumnsType<TeamInfo> = [
     {
       title: "Rank",
       dataIndex: "rank",
@@ -61,20 +71,73 @@ function Competition_table(props: Props) {
       align: "center",
     },
     {
-      title: "Points",
-      dataIndex: "points",
-      key: "points",
-      align: "center",
-    },
-    {
       title: "scored",
       dataIndex: "goalsFor",
       key: "goalsFor",
       align: "center",
     },
+    {
+      title: "Points",
+      dataIndex: "points",
+      key: "points",
+      align: "center",
+    },
   ];
-
-  
+  if (props.type === "full") {
+    columns.splice(
+      3,
+      0,
+      {
+        title: "Won",
+        dataIndex: "won",
+        key: "won",
+        align: "center",
+        responsive: ["lg"],
+      },
+      {
+        title: "Lose",
+        dataIndex: "lose",
+        key: "lose",
+        align: "center",
+        responsive: ["lg"],
+      },
+      {
+        title: "Draw",
+        dataIndex: "draw",
+        key: "draw",
+        align: "center",
+        responsive: ["lg"],
+      },
+      {
+        title: "form",
+        dataIndex: "form",
+        key: "form",
+        align: "center",
+        responsive: ["lg"],
+      },
+      {
+        title: "GF",
+        dataIndex: "goalsFor",
+        key: "goalsFor",
+        align: "center",
+        responsive: ["lg"],
+      },
+      {
+        title: "GA",
+        dataIndex: "goalsAgainst",
+        key: "goalsAgainst",
+        align: "center",
+        responsive: ["lg"],
+      },
+      {
+        title: "GD",
+        dataIndex: "goalsDiff",
+        key: "goalsDiff",
+        align: "center",
+        responsive: ["lg"],
+      }
+    );
+  }
   return (
     <ConfigProvider
       theme={{
@@ -89,25 +152,61 @@ function Competition_table(props: Props) {
             headerColor: "#FD3546",
             rowSelectedBg: "#a66cff",
           },
+          Collapse: {
+            headerBg: "rgba(31, 50, 72, 0.2)",
+          },
         },
       }}
     >
       <div className="flex flex-col w-full overflow-hidden">
-        <Table
-          bordered
-          size="small"
-          rowClassName={"h-[40px] overflow-hidden"}
-          pagination={{
-            position: ["bottomRight", "bottomRight"],
-          }}
-          className="w-full h-full text-white "
-          dataSource={dataSource}
-          columns={columns}
-        />
+        {props.standings[0].group.startsWith("Group") ? (
+          <Collapse
+            size="small"
+            expandIconPosition="end"
+            bordered={false}
+            className="text-sm rounded-none *:rounded-none"
+            items={[
+              {
+                key: "1",
+                label: (
+                  <div className="flex items-center gap-2">
+                    <p className="mb-2 text-xl font-semibold text-primary-second">
+                      {props.standings[0].group}
+                    </p>
+                  </div>
+                ),
+                children: dataSource?.[0] && (
+                  <Table
+                    size="small"
+                    rowClassName={"h-[40px] overflow-hidden"}
+                    pagination={{
+                      position: ["bottomRight", "bottomRight"],
+                      hideOnSinglePage: true,
+                    }}
+                    className="w-full h-full text-white rounded-none"
+                    dataSource={dataSource}
+                    columns={columns}
+                  />
+                ),
+              },
+            ]}
+          />
+        ) : (
+          <Table
+            size="small"
+            rowClassName={"h-[40px] overflow-hidden"}
+            pagination={{
+              position: ["bottomRight", "bottomRight"],
+              hideOnSinglePage: true,
+            }}
+            className="w-full h-full text-white "
+            dataSource={dataSource}
+            columns={columns}
+          />
+        )}
       </div>
     </ConfigProvider>
   );
 }
 
 export default Competition_table;
-

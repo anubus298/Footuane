@@ -40,10 +40,14 @@ function FixtureInfo({ fixture }: { fixture: FixtureIndvResponse }) {
         </Link>
       </div>
       <div className="flex items-center justify-center col-span-1 gap-2 text-sm text-center">
-        <FontAwesomeIcon icon={faFlagCheckered} className="text-xs" />
-        <p className="text-xs md:text-base">
-          {fixtureData?.referee?.split(",")[0]}
-        </p>
+        {fixtureData?.referee?.split(",")[0] && (
+          <>
+            <FontAwesomeIcon icon={faFlagCheckered} className="text-xs" />
+            <p className="text-xs md:text-base">
+              {fixtureData?.referee?.split(",")[0]}
+            </p>
+          </>
+        )}
       </div>
       <div className="flex items-center justify-end col-span-1 gap-2 text-sm text-center">
         <FontAwesomeIcon icon={faLocationDot} className="text-xs" />

@@ -35,7 +35,8 @@ export default function RootLayout({
           },
           token: {
             fontFamily: "var(--font-Oswald)",
-            colorBgElevated : "#F1F2EB"
+            colorBgElevated : "#F1F2EB",
+            colorLink : "#F1F2EB"
           },
         }}
       >
@@ -44,7 +45,7 @@ export default function RootLayout({
         >
           <StyledComponentsRegistry>
             <Navbar_main />
-            <div className="container min-h-screen mx-auto">{children}</div>
+            <div className="container min-h-screen mx-auto font-light ">{children}</div>
             <FooterComp/>
           </StyledComponentsRegistry>
         </body>

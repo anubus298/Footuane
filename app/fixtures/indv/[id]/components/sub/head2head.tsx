@@ -32,7 +32,7 @@ function HeadToHead({ headToheads ,teams}: Props) {
             <Game
               key={fixture.fixture.id + 546}
               fixture={fixture}
-              type="passed"
+              showLeague={true}
             />
           );
         })}

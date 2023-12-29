@@ -118,7 +118,7 @@ interface FixtureEvents {
   // Adjust this based on the actual type
 }
 
-export interface FixturesData {
+export interface FixtureData {
     fixture: Fixture;
     league: LeagueInfo;
     teams: FixtureTeams;
@@ -141,7 +141,7 @@ export interface fixtureResponse {
     current: number;
     total: number;
   };
-  response: FixturesData[];
+  response: FixtureData[];
 }
 
 

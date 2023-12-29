@@ -1,8 +1,8 @@
 import Main from "./main/main";
-import { fixtureResponse, FixturesData } from "./lib/types/fixture/fixture";
+import { fixtureResponse, FixtureData } from "./lib/types/fixture/fixture";
 import { leaguesIds, statusShorts } from "./lib/api/ids";
 import { StandingsResponse } from "./lib/types/standings";
-import { TopScorersResponse } from "./lib/types/topScorers";
+import { TopResponse } from "./lib/types/topScorers";
 import { ScoreBatResponse } from "./lib/types/scoreBat";
 
 export default async function Home() {
@@ -92,20 +92,19 @@ export default async function Home() {
         },
       }
     );
-    let data: TopScorersResponse = await res.json();
+    let data: TopResponse = await res.json();
     return data;
   }
-  const fixtures_upcoming: fixtureResponse = await GetFixturesFromTo(
-    GetDate(1, 1).yesterday,
-    GetDate(1, 1).tomorrow,
-  );
   const fixtures_past: fixtureResponse = await GetFixtures(
     GetDate(1, 1).yesterday
+  );
+  const fixtures_upcoming: fixtureResponse = await GetFixtures(
+    GetDate(1, 1).tomorrow
   );
   const videos: ScoreBatResponse = await GetVideos();
   const fixtures_live: fixtureResponse = await GetLive();
   const standings: StandingsResponse = await GetStandings(61);
-  const topScorers: TopScorersResponse = await GetTopScorers(88);
+  const topScorers: TopResponse = await GetTopScorers(88);
   return (
     <Main
       live={fixtures_live}
@@ -120,7 +119,7 @@ export default async function Home() {
 
 //*helping function
 
-function GetDate(minus: number, plus: number) {
+export function GetDate(minus: number, plus: number) {
   const tomorrowDate = new Date();
   tomorrowDate.setDate(tomorrowDate.getDate() + plus);
   const yesterdayDate = new Date();
@@ -140,7 +139,7 @@ function GetDate(minus: number, plus: number) {
   };
 }
 
-function SortByImportance(fixtures: FixturesData[]) {
+function SortByImportance(fixtures: FixtureData[]) {
   const filtered = fixtures.filter((item) => {
     return Object.values(leaguesIds).includes(item.league.id);
   });
@@ -149,7 +148,7 @@ function SortByImportance(fixtures: FixturesData[]) {
   });
   return sorted;
 }
-function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
+function RemoveShitLeague(input: FixtureData[]): FixtureData[] {
   let mimic = [...input];
   mimic = mimic.filter((item) => {
     return item.league.id !== 383;
@@ -157,7 +156,7 @@ function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
   return mimic;
 }
 
-function RemoveLiveMatches(input: FixturesData[]): FixturesData[] {
+function RemoveLiveMatches(input: FixtureData[]): FixtureData[] {
   const arrayCatcher = (
     statusShorts.in_play +
     "-" +

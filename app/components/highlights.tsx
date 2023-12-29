@@ -22,7 +22,7 @@ const Highlight: React.FC<MainImgProps> = ({ videos }) => {
 
   return (
     <section className="w-full">
-      <h3 className="mb-4 text-5xl font-extrabold uppercase text-primary-second">
+      <h3 className="w-full mb-2 text-5xl font-extrabold text-center uppercase text-primary-second">
         Highlights
       </h3>
       <div className="grid w-full grid-cols-12 gap-2 text-white md:mb-20 md:justify-between md:h-[550px]">

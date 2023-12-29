@@ -1,10 +1,10 @@
 "use client";
 import Games_table from "../components/games_table";
 import Highlights from "../components/highlights";
-import { fixtureResponse, FixturesData } from "../lib/types/fixture/fixture";
+import { fixtureResponse, FixtureData } from "../lib/types/fixture/fixture";
 import { ScoreBatResponse } from "../lib/types/scoreBat";
 import { StandingsResponse } from "../lib/types/standings";
-import { TopScorersResponse } from "../lib/types/topScorers";
+import { TopResponse } from "../lib/types/topScorers";
 
 interface Props {
   standings?: StandingsResponse;
@@ -12,12 +12,20 @@ interface Props {
   videos?: ScoreBatResponse;
   fixtures?: fixtureResponse;
   fixtures_upcoming?: fixtureResponse;
-  topScorers?: TopScorersResponse;
+  topScorers?: TopResponse;
 }
 
 function Main(props: Props) {
   return (
     <div className="w-full mt-4">
+      <div className="flex flex-col items-center justify-center w-full overflow-hidden select-none h-96">
+        <h1 className="font-extrabold text-7xl md:text-9xl text-primary-second ">
+          FOOTUANE
+        </h1>
+        <h3 className="text-3xl font-semibold text-white md:text-4xl ">
+          On The Ball<span className="text-lg">,</span> Always Updated.{" "}
+        </h3>
+      </div>
       <Highlights videos={props?.videos?.response} />
       <Games_table
         fixtures={props?.live?.response}
@@ -40,15 +48,13 @@ function Main(props: Props) {
         fixtures={props?.fixtures?.response}
         type="Past"
       />
-       
     </div>
   );
 }
 
-
-function divideByTime(input: FixturesData[]): DivideByTime {
-  let past: FixturesData[] = [],
-    upcoming: FixturesData[] = [];
+function divideByTime(input: FixtureData[]): DivideByTime {
+  let past: FixtureData[] = [],
+    upcoming: FixtureData[] = [];
   const now = new Date();
   const cleaned = RemoveShitLeague(input);
   cleaned.forEach((item) => {
@@ -65,13 +71,11 @@ function divideByTime(input: FixturesData[]): DivideByTime {
   };
 }
 
-
-
 interface DivideByTime {
-  upcoming: FixturesData[];
-  past: FixturesData[];
+  upcoming: FixtureData[];
+  past: FixtureData[];
 }
-function RemoveShitLeague(input: FixturesData[]): FixturesData[] {
+function RemoveShitLeague(input: FixtureData[]): FixtureData[] {
   let mimic = [...input];
   mimic = mimic.filter((item) => {
     return item.league.id !== 383;
