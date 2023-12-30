@@ -49,7 +49,7 @@ function Game(props: CompProps) {
   return (
     <div className="items-center w-full gap-2 p-3 select-none">
       <p className="text-sm font-semibold ">{formattedDate}</p>
-      <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-40 flex w-full h-[100px] md:h-[70px]">
+      <div className="items-center py-2 px-1 md:px-4 rounded-sm bg-primary-first bg-opacity-30 flex w-full h-[100px] md:h-[70px]">
         <div
           className={
             "flex items-center *:w-1/3 " +
@@ -64,6 +64,7 @@ function Game(props: CompProps) {
               }
             >
               <Image
+                unoptimized
                 alt={props.fixture.teams.home.name + " logo"}
                 src={props.fixture.teams.home.logo}
                 height={35}
@@ -147,6 +148,7 @@ function Game(props: CompProps) {
               }
             >
               <Image
+                unoptimized
                 alt={props.fixture.teams.away.name + " logo"}
                 src={props.fixture.teams.away.logo}
                 height={35}

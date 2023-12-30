@@ -38,6 +38,7 @@ function RightTabs({ countries }: Props) {
               >
                 <div className="h-[35px] bg-white overflow-hidden flex justify-center items-center p-1 rounded-sm">
                   <Image
+                    unoptimized
                     height={30}
                     width={30}
                     className="h-auto"

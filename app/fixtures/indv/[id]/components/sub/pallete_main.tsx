@@ -76,7 +76,7 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
             <div className="flex flex-col items-center justify-between gap-2">
               {/* Score */}
               <h4 className="text-xl">{fixtureInfo?.status?.long}</h4>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 font-semibold">
                 {typeof goals?.home === "number" &&
                   typeof goals?.away === "number" && (
                     <>
@@ -102,7 +102,7 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
             {statusShorts.in_play.includes(
               fixtureInfo?.status?.short || ""
             ) && (
-              <div className="flex items-center gap-1 text-primary-second">
+              <div className="flex items-center gap-1 font-normal text-primary-second">
                 <p className="font-semibold ">{elapsed}&apos;</p>
                 <FontAwesomeIcon
                   icon={faSoccerBall}
@@ -115,7 +115,7 @@ function Pallete_main({ fixture }: { fixture: FixtureIndvResponse }) {
             {(statusShorts.finished + "-" + statusShorts.scheduled)
               .split("-")
               .includes(fixtureInfo?.status?.short || "") && (
-              <p className="text-primary-second">{prettyDate}</p>
+              <p className="font-normal text-primary-second">{prettyDate}</p>
             )}
             {statusShorts.first_half === fixtureInfo?.status.short && (
               <p className="text-primary-second">First Half</p>

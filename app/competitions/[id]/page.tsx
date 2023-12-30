@@ -1,5 +1,4 @@
 import { statusShorts } from "@/app/lib/api/ids";
-import { CountriesResponse } from "@/app/lib/types/countries";
 import { fixtureResponse, FixtureData } from "@/app/lib/types/fixture/fixture";
 import { StandingsResponse } from "@/app/lib/types/standings";
 import { TopResponse } from "@/app/lib/types/topScorers";

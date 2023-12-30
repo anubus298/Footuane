@@ -15,7 +15,7 @@ interface Props {
 }
 function Competitions_matches({ rounds, fixtures, latestRound }: Props) {
   const [currentRound, setcurrentRound] = useState<string>(
-    latestRound || fixtures.response[0].league.round
+    latestRound || fixtures?.response?.[0]?.league?.round
   );
   const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
   const [filteredFixtures, setfilteredFixtures] = useState(

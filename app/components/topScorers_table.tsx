@@ -31,6 +31,7 @@ function TopScorersTable({ topScorers, type }: Props) {
         <div className="flex items-center gap-2 ">
           {player?.player?.photo && (
             <Image
+              unoptimized
               src={player?.player?.photo}
               height={50}
               width={50}
@@ -49,6 +50,7 @@ function TopScorersTable({ topScorers, type }: Props) {
           >
             {player?.statistics?.[0]?.team.logo && (
               <Image
+                unoptimized
                 src={player?.statistics?.[0]?.team?.logo}
                 height={30}
                 width={30}

@@ -32,6 +32,7 @@ function Competition_table(props: Props) {
         <div className="flex items-center gap-2 w-[160px]">
           <Link href={"/teams/indv/" + team.team.id} className="flex items-center gap-2">
             <Image
+            unoptimized
               src={team.team.logo}
               alt={team.team.name + " logo"}
               height={30}
@@ -108,13 +109,7 @@ function Competition_table(props: Props) {
         align: "center",
         responsive: ["lg"],
       },
-      {
-        title: "form",
-        dataIndex: "form",
-        key: "form",
-        align: "center",
-        responsive: ["lg"],
-      },
+     
       {
         title: "GF",
         dataIndex: "goalsFor",
@@ -135,7 +130,14 @@ function Competition_table(props: Props) {
         key: "goalsDiff",
         align: "center",
         responsive: ["lg"],
-      }
+      },
+      {
+        title: "form",
+        dataIndex: "form",
+        key: "form",
+        align: "center",
+        responsive: ["lg"],
+      },
     );
   }
   return (

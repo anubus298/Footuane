@@ -36,14 +36,17 @@ export default async function Home() {
     data.response = SortByImportance(data.response);
     return data;
   }
-  async function GetFixturesFromTo(from: string,to: string) {
-    const res = await fetch(process.env.API_URL + `/fixtures?from=${from}&to=${to}`, {
-      method: "GET",
-      headers: myHeaders,
-      next: {
-        revalidate: 3600,
-      },
-    });
+  async function GetFixturesFromTo(from: string, to: string) {
+    const res = await fetch(
+      process.env.API_URL + `/fixtures?from=${from}&to=${to}`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        next: {
+          revalidate: 3600,
+        },
+      }
+    );
     let data: fixtureResponse = await res.json();
     data.response = RemoveLiveMatches(data.response);
     data.response = SortByImportance(data.response);
@@ -140,8 +143,9 @@ export function GetDate(minus: number, plus: number) {
 }
 
 function SortByImportance(fixtures: FixtureData[]) {
+  const ids = Object.values(leaguesIds).slice(0, 19);
   const filtered = fixtures.filter((item) => {
-    return Object.values(leaguesIds).includes(item.league.id);
+    return ids.includes(item.league.id);
   });
   const sorted = filtered.sort((a, b) => {
     return a.league.id - b.league.id;
@@ -176,5 +180,3 @@ function getRandomItem<T>(array: T[]): T {
   const randomIndex = Math.floor(Math.random() * array.length);
   return array[randomIndex];
 }
-
-// getRandomItem([39, 140, 78, 135, 61, 307, 71, 88])K

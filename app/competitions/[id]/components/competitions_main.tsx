@@ -34,9 +34,14 @@ function Competitions_main({
         latestRound={latestRound}
       />
       <div className="w-full mb-4">
+        {standings?.response?.[0]?.league?.standings?.length === 1 && (
+          <h3 className="mb-4 text-3xl font-semibold text-primary-second">
+            Current Standings
+          </h3>
+        )}
         <div className="flex flex-col gap-4">
-          {standings?.response[0] &&
-            standings.response[0].league.standings.map((stand, index) => {
+          {standings?.response?.[0] &&
+            standings.response?.[0]?.league?.standings?.map((stand, index) => {
               return (
                 <Competition_table
                   key={index * 45 + 546}
@@ -72,8 +77,8 @@ function CompetitionInfo(
   return (
     <div className="grid w-full grid-cols-12 grid-rows-2 py-6 mb-2 bg-primary-first bg-opacity-40 md:grid-rows-1">
       <div className="flex flex-col items-center justify-center col-span-6 row-start-2 row-end-3 md:row-start-1 md:row-end-2 md:col-span-3">
-        <p className="text-lg">Current Round :</p>
-        <p className="text-lg font-light">{latestRound}</p>
+        <p className="text-lg font-normal">Current Round :</p>
+        <p className="font-light ">{latestRound}</p>
       </div>
       <div className="flex flex-col items-center justify-center w-full col-span-12 row-start-1 row-end-2 gap-3 md:col-span-6">
         <div className="size-[100px] flex justify-center items-center bg-white rounded overflow-hidden">
@@ -90,15 +95,15 @@ function CompetitionInfo(
         </h3>
       </div>
       <div className="flex flex-col items-center justify-center col-span-6 row-start-2 row-end-3 md:row-start-1 md:row-end-2 md:col-span-3">
-        {standings?.response[0].league.flag && (
+        {standings?.response?.[0]?.league?.flag && (
           <Image
-            src={standings?.response[0].league.flag}
+            src={standings?.response?.[0]?.league?.flag}
             height={80}
             width={80}
-            alt={standings?.response[0].league.country + " flag"}
+            alt={standings?.response?.[0]?.league?.country + " flag"}
           />
         )}
-        <p className="text-lg">{standings?.response[0].league.country}</p>
+        <p className="text-lg">{standings?.response?.[0]?.league?.country}</p>
       </div>
     </div>
   );

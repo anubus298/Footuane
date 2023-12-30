@@ -36,7 +36,7 @@ function Navbar_Main() {
       mimic[
         Object.keys(list).findIndex((item) => {
           if (item !== "home") {
-            return params === "/" + item;
+            return params.startsWith("/" + item);
           } else {
             return params === "/";
           }
@@ -51,8 +51,8 @@ function Navbar_Main() {
       <nav className="flex items-center justify-between w-full p-1 px-8 mb-6 font-semibold text-white uppercase bg-primary-lime-green md:text-lg">
         <Link href={"/"}>
           <Image
-            height={60}
-            width={60}
+            height={50}
+            width={50}
             alt="Footuane logo"
             src={"/logo193.png"}
           />
@@ -72,7 +72,7 @@ function Navbar_Main() {
                       <Menu.Item disabled key={102 + index * 2}>
                         {({ active }) => (
                           <Link
-                            href={`competitions/${leaguesIds[league]}`}
+                            href={`/competitions/${leaguesIds[league]}`}
                             className={`${active && "text-white"}`}
                           >
                             {league}

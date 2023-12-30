@@ -9,8 +9,8 @@ import { useMediaQuery } from "react-responsive";
 interface PlayerData {
   key: number;
   player: React.ReactNode;
-  dribbles: string;
-  fouls: string;
+  dribbles: any;
+  fouls: any;
   assists: number | null;
   minutes: number | null;
   rating: number | JSX.Element;
@@ -31,9 +31,10 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
           player: (
             <div className="flex flex-col items-center gap-2 md:flex-row ">
               <Image
+                unoptimized
                 src={player.player.photo}
-                height={60}
-                width={60}
+                height={40}
+                width={40}
                 alt={player.player.name + " photo"}
               />
               <p className="text-sm text-center md:text-base md:text-start">
@@ -41,16 +42,8 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
               </p>
             </div>
           ),
-          dribbles:
-            " attempt : " +
-            (player.statistics[0].dribbles.attempts || 0) +
-            " success : " +
-            (player.statistics[0].dribbles.success || 0),
-          fouls:
-            "committed :" +
-            (player.statistics[0].fouls.committed || 0) +
-            " drawn : " +
-            (player.statistics[0].fouls.drawn || 0),
+          dribbles: player.statistics[0].dribbles.attempts || 0,
+          fouls: player.statistics[0].fouls.committed || 0,
           assists: player.statistics[0].goals.assists || 0,
           minutes: player.statistics[0].games.minutes || 0,
           rating: (
@@ -85,6 +78,7 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
       title: "Dribbles",
       dataIndex: "dribbles",
       key: "dribbles",
+      align: "center",
       responsive: ["lg"],
     },
     {
@@ -92,6 +86,7 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
       dataIndex: "fouls",
       responsive: ["lg"],
       key: "fouls",
+      align: "center",
     },
     {
       title: "Assists",
@@ -99,14 +94,6 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
       key: "assists",
       align: "center",
     },
-    {
-      title: "Minutes",
-      dataIndex: "minutes",
-      key: "minutes",
-      align: "center",
-      responsive: ["lg"],
-    },
-
     {
       title: "Scored",
       dataIndex: "scored",
@@ -140,6 +127,13 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
       responsive: ["lg"],
     },
     {
+      title: "Minutes",
+      dataIndex: "minutes",
+      key: "minutes",
+      align: "center",
+      responsive: ["lg"],
+    },
+    {
       title: "Rating",
       dataIndex: "rating",
       key: "rating",
@@ -159,7 +153,7 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
           Table: {
             cellPaddingBlock: 4,
             cellPaddingInlineMD: 4,
-            headerColor: "#defe54",
+            headerColor: "#fd3546",
             rowSelectedBg: "#a66cff",
           },
           Collapse: {
@@ -174,6 +168,7 @@ function PlayersStatistics({ players }: { players?: Players[] }) {
             Players Statistics
           </h3>
           <Collapse
+            bordered={false}
             size="small"
             expandIconPosition="end"
             className="text-sm"
