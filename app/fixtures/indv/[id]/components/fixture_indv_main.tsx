@@ -11,13 +11,18 @@ import Pallete_main from "./sub/pallete_main";
 import Predictions from "./sub/predictions";
 import Statistics from "./sub/statistics";
 import TimeLine from "./sub/timeline";
+import Empty_Pallete_main from "./sub/empty/empty_pallete_main";
 
 function Fixture_indv_main({ response }: { response: FixtureHandlerResponse }) {
   return (
     <div className="grid grid-cols-12 grid-rows-1 gap-2 *">
       <div className="flex flex-col col-span-12 row-span-1 gap-2 md:col-span-8 ">
-        <Pallete_main fixture={response.fixtureResponse} />
-        <FixtureInfo fixture={response.fixtureResponse} />
+        {response.fixtureResponse && (
+          <Pallete_main fixture={response?.fixtureResponse} />
+        )}
+        {response.fixtureResponse && (
+          <FixtureInfo fixture={response?.fixtureResponse} />
+        )}
         {response?.fixtureResponse?.response?.[0]?.statistics?.length !== 0 && (
           <Statistics
             players={response?.fixtureResponse?.response?.[0]?.players || []}
