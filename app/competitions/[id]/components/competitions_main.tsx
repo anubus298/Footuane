@@ -10,11 +10,11 @@ import { fixtureResponse } from "@/app/lib/types/fixture/fixture";
 interface Props {
   leagueId: number;
   standings?: StandingsResponse;
-  fixtures: fixtureResponse;
-  topScorers: TopResponse;
+  fixtures?: fixtureResponse;
+  topScorers?: TopResponse;
   latestRound?: string;
-  rounds: string[];
-  topAssists: TopResponse;
+  rounds?: string[];
+  topAssists?: TopResponse;
 }
 function Competitions_main({
   leagueId,
@@ -28,11 +28,13 @@ function Competitions_main({
   return (
     <div className="col-span-12 mx-2 text-white md:col-start-3 md:col-end-11 md:mx-0">
       {CompetitionInfo(latestRound, leagueId, standings)}
-      <Competitions_matches
-        fixtures={fixtures}
-        rounds={rounds}
-        latestRound={latestRound}
-      />
+      {fixtures && rounds && (
+        <Competitions_matches
+          fixtures={fixtures}
+          rounds={rounds}
+          latestRound={latestRound}
+        />
+      )}
       <div className="w-full mb-4">
         {standings?.response?.[0]?.league?.standings?.length === 1 && (
           <h3 className="mb-4 text-3xl font-semibold text-primary-second">
@@ -56,13 +58,17 @@ function Competitions_main({
         <h3 className="mb-4 text-3xl font-semibold text-primary-second">
           Top Scorers
         </h3>
-        <TopScorersTable type="full" topScorers={topScorers.response} />
+        {topScorers?.response && (
+          <TopScorersTable type="full" topScorers={topScorers.response} />
+        )}
       </div>
       <div className="w-full mb-4">
         <h3 className="mb-4 text-3xl font-semibold text-primary-second">
           Top Assists
         </h3>
-        <TopScorersTable type="full" topScorers={topAssists.response} />
+        {topAssists?.response && (
+          <TopScorersTable type="full" topScorers={topAssists.response} />
+        )}
       </div>
     </div>
   );

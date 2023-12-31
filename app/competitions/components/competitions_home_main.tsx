@@ -1,10 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { leaguesIds } from "@/app/lib/api/ids";
 import { AllLeaguesResponse } from "@/app/lib/types/allLeagues";
 import { CountriesResponse } from "@/app/lib/types/countries";
-import { ConfigProvider, Dropdown, Input, Popover } from "antd";
-import type { MenuProps } from "antd";
+import { ConfigProvider, Input, Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -14,15 +14,8 @@ interface Props {
 }
 function Competitions_home_main({ leagues, countries }: Props) {
   const [filteredLeagues, setfilteredLeagues] = useState(
-    leagues.response.slice(0, 15)
+    leagues.response.slice(0, 22)
   );
-  const items: MenuProps["items"] = countries.response.map((country, index) => {
-    return {
-      key: index + 1,
-      label: <button>{country.name}</button>,
-      onClick: () => setcountrySearchValue(country.code),
-    };
-  });
   const [searchValue, setsearchValue] = useState<undefined | string>(undefined);
   const [countrySearchValue, setcountrySearchValue] = useState("");
   useEffect(() => {
@@ -43,26 +36,41 @@ function Competitions_home_main({ leagues, countries }: Props) {
                 .toLowerCase()
                 .includes(searchValue.toLowerCase());
             })
-            .slice(0, 15)
+            .slice(0, 22)
         );
       } else if (searchValue === "") {
-        setfilteredLeagues(leagues.response.slice(0, 15));
+        setfilteredLeagues(leagues.response.slice(0, 22));
       }
     }
   }, [countrySearchValue]);
   useEffect(() => {
     if (searchValue) {
-      setfilteredLeagues(
-        leagues.response
-          .filter((league) => {
-            return league.league.name
-              .toLowerCase()
-              .includes(searchValue.toLowerCase());
-          })
-          .slice(0, 15)
-      );
+      if (countrySearchValue) {
+        setfilteredLeagues(
+          leagues.response
+            .filter((league) => {
+              return league.country.code === countrySearchValue;
+            })
+            .filter((league) => {
+              return league.league.name
+                .toLowerCase()
+                .includes(searchValue.toLowerCase());
+            })
+            .slice(0, 22)
+        );
+      } else if (countrySearchValue === "") {
+        setfilteredLeagues(
+          leagues.response
+            .filter((league) => {
+              return league.league.name
+                .toLowerCase()
+                .includes(searchValue.toLowerCase());
+            })
+            .slice(0, 22)
+        );
+      }
     } else if (searchValue === "") {
-      setfilteredLeagues(leagues.response.slice(0, 15));
+      setfilteredLeagues(leagues.response.slice(0, 22));
     }
   }, [searchValue]);
   return (
@@ -100,21 +108,28 @@ function Competitions_home_main({ leagues, countries }: Props) {
         </div>
         <div className="w-full p-3 bg-primary-first bg-opacity-40">
           <h3 className="text-2xl font-semibold text-primary-second">All</h3>
-          <div className="flex justify-center w-full">
+          <div className="flex items-center justify-between w-full">
             <Input
               placeholder="search for a competition"
               size="large"
-              className="w-[300px] mb-2"
+              className="w-[300px] mb-2 rounded-none bg-white"
               onChange={(e) => setsearchValue(e.target.value)}
             />
-            <Dropdown
-              menu={{ items }}
-              trigger={["click"]}
-              placement="bottom"
-              className="max-h-[100px] overflow-y-hidden"
-            >
-              <button className="px-1 bg-white rounded-lg text-primary-lime-green">hover me</button>
-            </Dropdown>
+            <select className="p-2 bg-white text-primary-lime-green">
+              <option onClick={() => setcountrySearchValue("")}>
+                --Filter By Country--
+              </option>
+              {countries.response.map((country, index) => {
+                return (
+                  <option
+                    key={index * 11 + 120}
+                    onClick={() => setcountrySearchValue(country.code)}
+                  >
+                    {country.name}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className="flex flex-wrap justify-center w-full gap-1 p-1 ">
             {filteredLeagues.map((league, index) => {

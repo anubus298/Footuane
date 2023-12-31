@@ -18,7 +18,7 @@ function Navbar_Main() {
   const params = usePathname();
   const list: Record<string, string> = {
     home: "Home",
-    matches: "Matches",
+    fixtures: "Matches",
     competitions: "Competitions",
     teams: "Teams",
   };

@@ -1,6 +1,6 @@
 "use client";
-import Games_table from "../components/games_table";
-import Highlights from "../components/highlights";
+import Games_table from "./games_table";
+import Highlights from "./highlights";
 import { fixtureResponse, FixtureData } from "../lib/types/fixture/fixture";
 import { ScoreBatResponse } from "../lib/types/scoreBat";
 import { StandingsResponse } from "../lib/types/standings";

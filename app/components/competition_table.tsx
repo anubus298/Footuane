@@ -14,7 +14,7 @@ interface Props {
 interface TeamInfo {
   key: number; // Assuming `index` is a number
   played: number;
-  rank: number;
+  rank: React.ReactNode;
   goalsFor: number;
   points: number;
   team: React.ReactNode; // You might need to adjust the type based on the actual React component
@@ -25,7 +25,10 @@ function Competition_table(props: Props) {
     return {
       key: index,
       played: team.all.played,
-      rank: team.rank,
+      rank: <div className="flex items-center justify-center gap-1">
+        <div className={team.status === "same"? "triangle-middle" : team.status === "up"? "triangle-up" : "triangle-down"}></div>
+        <p>{team.rank}</p>
+      </div>,
       goalsFor: team.all.goals.for,
       points: team.points,
       team: (

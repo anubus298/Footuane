@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 body {
-  background: radial-gradient(63% 63% at 50% 136.2%, #161714 0%, #701018 0.01%, #171614 96.62%) !important;
+  background: radial-gradient(
+    63% 63% at 50% 136.2%,
+    #161714 0%,
+    #701018 0.01%,
+    #171614 96.62%
+  ) !important;
 }
 
 .selected-nav {
@@ -16,19 +21,37 @@ body {
   @apply flex items-center justify-center w-3 h-5 p-1 text-sm rounded-sm;
 }
 .place-center {
-  @apply justify-center items-center
+  @apply justify-center items-center;
 }
 
 .selection\:text-primary-white ::selection {
-  color :#defe54 !important
+  color: #defe54 !important;
 }
 
 .swiper-button-next,
 .swiper-button-prev {
-    right:10px;
-    padding: 30px;
-    color: #fd3546 !important;
-    stroke: black !important;
+  right: 10px;
+  padding: 30px;
+  color: #fd3546 !important;
+  stroke: black !important;
 }
 
-
+.triangle-up {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #4caf50; /* Change the color as needed */
+}
+.triangle-middle {
+  width: 10px;
+  height: 2px;
+  background-color: gray;
+}
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid #e72a2a; /* Change the color as needed */
+}

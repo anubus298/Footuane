@@ -1,5 +1,6 @@
 import { AllLeaguesResponse } from "../lib/types/allLeagues";
 import { CountriesResponse } from "../lib/types/countries";
+import { GetDate } from "../page";
 import Competitions_home_main from "./components/competitions_home_main";
 
 async function Page() {
@@ -7,11 +8,15 @@ async function Page() {
   let myHeaders = new Headers();
   myHeaders.append("x-apisports-key", API_KEY);
   async function GetAllLeagues() {
-    const res = await fetch(process.env.API_URL + "/leagues", {
-      method: "GET",
-      headers: myHeaders,
-      cache: "force-cache",
-    });
+    const res = await fetch(
+      process.env.API_URL +
+        `/leagues?season=${GetDate(255, 0).yesterday.split("-")[0]}`,
+      {
+        method: "GET",
+        headers: myHeaders,
+        next: { revalidate: 604800 },
+      }
+    );
     let data: AllLeaguesResponse = await res.json();
     return data;
   }
@@ -22,6 +27,7 @@ async function Page() {
       cache: "force-cache",
     });
     let data: CountriesResponse = await res.json();
+    //remove Nothing from the list
     data.response.splice(
       data.response.findIndex((country) => {
         return country.name === "Israel";
@@ -32,7 +38,7 @@ async function Page() {
   }
   const allLeagues: AllLeaguesResponse = await GetAllLeagues();
   const countries: CountriesResponse = await getCountries();
-  return <Competitions_home_main leagues={allLeagues} countries={countries}/>;
+  return <Competitions_home_main leagues={allLeagues} countries={countries} />;
 }
 
 export default Page;

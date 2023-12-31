@@ -19,7 +19,7 @@ function LeftTabs() {
         {Object.entries(leaguesIds).map((entry, index) => (
           <>
             <Link
-              key={index * 546}
+              key={index * 546 + 45 + entry[1]}
               href={"/competitions/" + entry[1]}
               className="flex items-center justify-center col-span-1"
             >
@@ -35,7 +35,7 @@ function LeftTabs() {
             </Link>
             <div
               className="flex items-center col-span-3 text-sm"
-              key={index * 547 + 478}
+              key={index * 547 + 478 + 44}
             >
               <Link href={"/competitions/" + entry[1]} className="">
                 {entry[0].split("(")[0]}

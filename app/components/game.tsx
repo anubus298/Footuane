@@ -3,6 +3,7 @@
 import { faSoccerBall } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { statusShorts } from "../lib/api/ids";
@@ -57,11 +58,9 @@ function Game(props: CompProps) {
           }
         >
           <div className="flex flex-col items-center justify-start gap-3 md:flex-row">
-            <div
+            <Link
+              href={`teams/${props.fixture.teams.home.id}`}
               className="w-[35px]  cursor-pointer hover:-translate-y-1 transition"
-              onClick={() =>
-                router.push(`teams/indv/${props.fixture.teams.home.id}`)
-              }
             >
               <Image
                 unoptimized
@@ -71,7 +70,7 @@ function Game(props: CompProps) {
                 width={35}
                 className="h-auto"
               />
-            </div>
+            </Link>
             <p className="w-[50px] text-xs md:text-base text-center md:text-start md:w-[80px]">
               {props.fixture.teams.home.name}
             </p>
@@ -141,11 +140,9 @@ function Game(props: CompProps) {
             <p className="w-[50px] text-xs md:text-base text-center md:text-end  md:w-[80px]">
               {props.fixture.teams.away.name}
             </p>
-            <div
+            <Link
+              href={`teams/${props.fixture.teams.away.id}`}
               className="w-[35px] cursor-pointer hover:-translate-y-1 transition"
-              onClick={() =>
-                router.push(`teams/indv/${props.fixture.teams.away.id}`)
-              }
             >
               <Image
                 unoptimized
@@ -155,16 +152,16 @@ function Game(props: CompProps) {
                 width={35}
                 className="w-auto h-auto"
               />
-            </div>
+            </Link>
           </div>
         </div>
         {props.showLeague && (
           <div className="flex justify-end w-2/12">
-            <div className=" size-[45px] bg-white rounded-sm  overflow-hidden flex place-center p-1">
+            <Link
+              href={`/competitions/${props.fixture.league.id}`}
+              className=" size-[45px] bg-white rounded-sm  overflow-hidden flex place-center p-1"
+            >
               <Image
-                onClick={() =>
-                  router.push(`/leagues/indv/${props.fixture.league.id}`)
-                }
                 alt={
                   props.fixture.league.name +
                   " logo: " +
@@ -175,7 +172,7 @@ function Game(props: CompProps) {
                 width={35}
                 className="h-auto transition cursor-pointer hover:-translate-y-1 "
               />
-            </div>
+            </Link>
           </div>
         )}
       </div>

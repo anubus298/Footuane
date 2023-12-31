@@ -1,4 +1,4 @@
-import Main from "./main/main";
+import Main from "./components/main";
 import { fixtureResponse, FixtureData } from "./lib/types/fixture/fixture";
 import { leaguesIds, statusShorts } from "./lib/api/ids";
 import { StandingsResponse } from "./lib/types/standings";
@@ -68,7 +68,7 @@ export default async function Home() {
     const res = await fetch(
       process.env.API_URL +
         `/standings?league=${id}&season=${
-          GetDate(1, 1).tomorrow.split("-")[0]
+          GetDate(255, 1).yesterday.split("-")[0]
         }`,
       {
         method: "GET",
@@ -85,7 +85,7 @@ export default async function Home() {
     const res = await fetch(
       process.env.API_URL +
         `/players/topscorers?league=${id}&season=${
-          GetDate(1, 1).tomorrow.split("-")[0]
+          GetDate(255, 1).yesterday.split("-")[0]
         }`,
       {
         method: "GET",
