@@ -54,22 +54,23 @@ function Competitions_main({
             })}
         </div>
       </div>
-      <div className="w-full mb-4">
-        <h3 className="mb-4 text-3xl font-semibold text-primary-second">
-          Top Scorers
-        </h3>
-        {topScorers?.response && (
-          <TopScorersTable type="full" topScorers={topScorers.response} />
-        )}
-      </div>
-      <div className="w-full mb-4">
-        <h3 className="mb-4 text-3xl font-semibold text-primary-second">
-          Top Assists
-        </h3>
-        {topAssists?.response && (
-          <TopScorersTable type="full" topScorers={topAssists.response} />
-        )}
-      </div>
+      {topScorers?.response.length !== 0 && (
+        <div className="w-full mb-4">
+          <h3 className="mb-4 text-3xl font-semibold text-primary-second">
+            Top Scorers
+          </h3>
+          <TopScorersTable type="full" topScorers={topScorers?.response} />
+        </div>
+      )}
+      {topAssists?.response.length !== 0 && (
+        <div className="w-full mb-4">
+          <h3 className="mb-4 text-3xl font-semibold text-primary-second">
+            Top Assists
+          </h3>
+
+          <TopScorersTable type="full" topScorers={topAssists?.response} />
+        </div>
+      )}
     </div>
   );
 }

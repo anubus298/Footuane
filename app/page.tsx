@@ -152,7 +152,7 @@ function SortByImportance(fixtures: FixtureData[]) {
   });
   return sorted;
 }
-function RemoveShitLeague(input: FixtureData[]): FixtureData[] {
+export function RemoveShitLeague(input: FixtureData[]): FixtureData[] {
   let mimic = [...input];
   mimic = mimic.filter((item) => {
     return item.league.id !== 383;

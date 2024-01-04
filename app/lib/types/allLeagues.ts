@@ -47,7 +47,7 @@ export interface AllLeaguesResponse {
   parameters: {
     id: string;
   };
-  errors: any[];
+  errors: any;
   results: number;
   paging: {
     current: number;

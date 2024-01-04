@@ -1,3 +1,4 @@
+import { revalidateTag } from "next/cache";
 import { AllLeaguesResponse } from "../lib/types/allLeagues";
 import { CountriesResponse } from "../lib/types/countries";
 import { GetDate } from "../page";
@@ -14,10 +15,14 @@ async function Page() {
       {
         method: "GET",
         headers: myHeaders,
-        next: { revalidate: 604800 },
+        next: { revalidate: 604800, tags: ["allLeagues"] },
       }
     );
+
     let data: AllLeaguesResponse = await res.json();
+    if (data.errors.rateLimit) {
+      revalidateTag("allLeagues");
+    }
     return data;
   }
   async function getCountries() {

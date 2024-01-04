@@ -6,6 +6,7 @@ import Image from "next/image";
 import Table from "antd/es/table";
 import { Collapse, ConfigProvider } from "antd";
 import Link from "next/link";
+import { randomUUID } from "crypto";
 interface Props {
   standings: StandingsTeam[];
   type: "full" | "cut";
@@ -25,17 +26,30 @@ function Competition_table(props: Props) {
     return {
       key: index,
       played: team.all.played,
-      rank: <div className="flex items-center justify-center gap-1">
-        <div className={team.status === "same"? "triangle-middle" : team.status === "up"? "triangle-up" : "triangle-down"}></div>
-        <p>{team.rank}</p>
-      </div>,
+      rank: (
+        <div className="flex items-center justify-center gap-1">
+          <div
+            className={
+              team.status === "same"
+                ? "triangle-middle"
+                : team.status === "up"
+                ? "triangle-up"
+                : "triangle-down"
+            }
+          ></div>
+          <p>{team.rank}</p>
+        </div>
+      ),
       goalsFor: team.all.goals.for,
       points: team.points,
       team: (
         <div className="flex items-center gap-2 w-[160px]">
-          <Link href={"/teams/indv/" + team.team.id} className="flex items-center gap-2">
+          <Link
+            href={"/teams/indv/" + team.team.id}
+            className="flex items-center gap-2"
+          >
             <Image
-            unoptimized
+              unoptimized
               src={team.team.logo}
               alt={team.team.name + " logo"}
               height={30}
@@ -46,7 +60,26 @@ function Competition_table(props: Props) {
           </Link>
         </div>
       ),
-      form: <p className="text-sm text-center">{team.form}</p>,
+      form: (
+        <p className="text-sm text-center">
+          {team.form.split("").map((letter) => {
+            return (
+              <span
+                key={index * 3 + 456}
+                className={
+                  (letter === "W"
+                    ? "text-green-400"
+                    : letter === "L"
+                    ? "text-red-500"
+                    : "text-gray-200") + " font-medium"
+                }
+              >
+                {letter}
+              </span>
+            );
+          })}
+        </p>
+      ),
       goalsDiff: team.goalsDiff,
       goalsAgainst: team.all.goals.against,
       lose: team.all.lose,
@@ -112,7 +145,7 @@ function Competition_table(props: Props) {
         align: "center",
         responsive: ["lg"],
       },
-     
+
       {
         title: "GF",
         dataIndex: "goalsFor",
@@ -140,7 +173,7 @@ function Competition_table(props: Props) {
         key: "form",
         align: "center",
         responsive: ["lg"],
-      },
+      }
     );
   }
   return (
