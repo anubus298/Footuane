@@ -15,9 +15,11 @@ interface Props {
   latestRound?: string;
   rounds?: string[];
   topAssists?: TopResponse;
+  coverage: any;
 }
 function Competitions_main({
   leagueId,
+  coverage,
   standings,
   topScorers,
   topAssists,

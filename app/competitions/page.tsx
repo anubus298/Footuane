@@ -18,7 +18,6 @@ async function Page() {
         next: { revalidate: 604800, tags: ["allLeagues"] },
       }
     );
-
     let data: AllLeaguesResponse = await res.json();
     if (data.response.length === 0) {
       revalidateTag("allLeagues");

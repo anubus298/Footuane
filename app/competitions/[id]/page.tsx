@@ -4,6 +4,7 @@ import { fixtureResponse } from "@/app/lib/types/fixture/fixture";
 import { StandingsResponse } from "@/app/lib/types/standings";
 import { TopResponse } from "@/app/lib/types/topScorers";
 import { GetDate } from "@/app/page";
+import { revalidateTag } from "next/cache";
 import Competitions_main from "./components/competitions_main";
 
 async function Competitions({ params }: { params: { id: number } }) {
@@ -19,10 +20,14 @@ async function Competitions({ params }: { params: { id: number } }) {
         headers: myHeaders,
         next: {
           revalidate: 604800,
+          tags: ["allLeagues2"],
         },
       }
     );
     let data: AllLeaguesResponse = await res.json();
+    if (data.response.length === 0) {
+      revalidateTag("allLeagues");
+    }
     return data.response.find((league) => {
       return league.league.id == id;
     });
@@ -74,6 +79,7 @@ async function Competitions({ params }: { params: { id: number } }) {
       }
     );
     let data: fixtureResponse = await res.json();
+
     return data;
   }
   let fixtures: fixtureResponse | undefined;
@@ -108,6 +114,7 @@ async function Competitions({ params }: { params: { id: number } }) {
   return (
     <Competitions_main
       leagueId={params.id}
+      coverage={coverage}
       latestRound={CurrentRound?.league.round}
       rounds={rounds}
       fixtures={fixtures}
