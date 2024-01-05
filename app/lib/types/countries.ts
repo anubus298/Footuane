@@ -4,7 +4,7 @@ export interface CountriesResponse {
     league: string;
     season: string;
   };
-  errors: any[];
+  errors: any;
   results: number;
   paging: {
     current: number;

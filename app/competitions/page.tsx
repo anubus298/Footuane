@@ -20,7 +20,7 @@ async function Page() {
     );
 
     let data: AllLeaguesResponse = await res.json();
-    if (data.errors.rateLimit) {
+    if (data.response.length === 0) {
       revalidateTag("allLeagues");
     }
     return data;
@@ -30,9 +30,14 @@ async function Page() {
       method: "GET",
       headers: myHeaders,
       cache: "force-cache",
+      next: {
+        tags: ["allCountries"],
+      },
     });
     let data: CountriesResponse = await res.json();
-    //remove Nothing from the list
+    if (data.response.length === 0) {
+      revalidateTag("allCountries");
+    }
     data.response.splice(
       data.response.findIndex((country) => {
         return country.name === "Israel";
