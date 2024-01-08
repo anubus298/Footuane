@@ -1,8 +1,8 @@
 import { FixtureData, fixtureResponse } from "../lib/types/fixture/fixture";
-import { RemoveShitLeague } from "../page";
+import { GetDate, RemoveShitLeague } from "../page";
 import Main_fixtures from "./components/main_fixtures";
 
-export interface LiveLeagues {
+export interface sortedFixturesByleague {
   [leagueName: string]: FixtureData[] | undefined;
 }
 
@@ -28,8 +28,34 @@ async function Page() {
     });
     return stackedPerLeague;
   }
-  const live: LiveLeagues = await GetLive();
-  return <Main_fixtures live={live} />;
+  async function GetFixtures(date: string) {
+    const res = await fetch(process.env.API_URL + `/fixtures?date=${date}`, {
+      method: "GET",
+      headers: myHeaders,
+      next: {
+        revalidate: 3600,
+      },
+    });
+    let data: fixtureResponse = await res.json();
+    data.response = RemoveShitLeague(data.response);
+    let stackedPerLeague: any = {};
+    data.response.forEach((fixture) => {
+      stackedPerLeague[fixture.league.name]
+        ? stackedPerLeague[fixture.league.name].push(fixture)
+        : (stackedPerLeague[fixture.league.name] = [fixture]);
+    });
+    return stackedPerLeague;
+  }
+  const live: sortedFixturesByleague = await GetLive();
+  const tomorrow: sortedFixturesByleague = await GetFixtures(
+    GetDate(1, 1).tomorrow
+  );
+  const yesterday: sortedFixturesByleague = await GetFixtures(
+    GetDate(1, 1).yesterday
+  );
+  return (
+    <Main_fixtures live={live} tomorrow={tomorrow} yesterday={yesterday} />
+  );
 }
 
 export default Page;

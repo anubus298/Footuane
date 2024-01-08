@@ -21,7 +21,7 @@ body {
   @apply flex items-center justify-center w-3 h-5 p-1 text-sm rounded-sm;
 }
 .place-center {
-  @apply justify-center items-center;
+  @apply items-center justify-center;
 }
 
 .selection\:text-primary-white ::selection {
@@ -32,7 +32,8 @@ body {
 .swiper-button-prev {
   right: 10px;
   padding: 30px;
-  color: #fd3546 !important;
+  color: #f1f2eb !important;
+  background-color: #1f3248;
   stroke: black !important;
 }
 

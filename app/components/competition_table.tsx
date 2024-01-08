@@ -6,7 +6,6 @@ import Image from "next/image";
 import Table from "antd/es/table";
 import { Collapse, ConfigProvider } from "antd";
 import Link from "next/link";
-import { randomUUID } from "crypto";
 interface Props {
   standings: StandingsTeam[];
   type: "full" | "cut";

@@ -28,7 +28,7 @@ function Competitions_main({
   latestRound,
 }: Props) {
   return (
-    <div className="col-span-12 mx-2 text-white md:col-start-3 md:col-end-11 md:mx-0">
+    <div className="col-span-12 mx-2 text-white md:col-start-3 md:col-end-13 md:mx-0">
       {CompetitionInfo(latestRound, leagueId, standings)}
       {fixtures && rounds && (
         <Competitions_matches

@@ -6,7 +6,6 @@ function CompetitionsLayout({ children }: { children: React.ReactNode }) {
     <div className="grid w-full grid-cols-12 gap-2">
       <LeftTabs />
       {children}
-      <Server_RightTabs/>
     </div>
   );
 }

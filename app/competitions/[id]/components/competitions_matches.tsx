@@ -1,19 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import Game from "@/app/components/game";
 
 import { fixtureResponse } from "@/app/lib/types/fixture/fixture";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 interface Props {
   rounds: string[];
   fixtures: fixtureResponse;
   latestRound?: string;
 }
 function Competitions_matches({ rounds, fixtures, latestRound }: Props) {
+  const swiperRef = useRef<any>(null);
   const [currentRound, setcurrentRound] = useState<string>(
     latestRound || fixtures?.response?.[0]?.league?.round
   );
@@ -43,7 +49,13 @@ function Competitions_matches({ rounds, fixtures, latestRound }: Props) {
   return (
     <>
       <div className="w-full mb-4 ">
-        <Swiper spaceBetween={5} slidesPerView={isMobileScreen ? 5 : 12}>
+        <Swiper
+          ref={swiperRef}
+          spaceBetween={5}
+          slidesPerView={isMobileScreen ? 5 : 15}
+          slidesPerGroup={isMobileScreen ? 5 : 15}
+          initialSlide={rounds.findIndex((round) => round === latestRound)}
+        >
           {rounds.map((item, index) => {
             return (
               <SwiperSlide key={index * 65 + 6456}>
@@ -62,10 +74,29 @@ function Competitions_matches({ rounds, fixtures, latestRound }: Props) {
           })}
         </Swiper>
       </div>
+
+      <div className="flex justify-between w-full px-8">
+        <div
+          className="flex justify-center items-center text-white cursor-pointer bg-primary-first rounded-full p-1 size-6"
+          onClick={() => swiperRef.current.swiper.slidePrev()}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </div>
+        <div
+          className="flex justify-center items-center text-white cursor-pointer bg-primary-first rounded-full p-1 size-6"
+          onClick={() => swiperRef.current.swiper.slideNext()}
+        >
+          <FontAwesomeIcon icon={faChevronRight} />
+        </div>
+      </div>
       <div className="w-full mb-4 max-h-[400px] overflow-y-auto">
         {filteredFixtures.map((fixture) => {
           return (
-            <Game showLeague={false} key={fixture.fixture.id + 654} fixture={fixture} />
+            <Game
+              showLeague={false}
+              key={fixture.fixture.id + 654}
+              fixture={fixture}
+            />
           );
         })}
       </div>

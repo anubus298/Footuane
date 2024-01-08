@@ -1,4 +1,5 @@
 import { ConfigProvider } from "antd";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Oswald } from "next/font/google";
 import Navbar_main from "./navbar/navbar_main";
@@ -43,8 +44,15 @@ export default function RootLayout({
           },
         }}
       >
-        <body className={inter.className + " md:bg-fixed " + inter.variable}>
+        <body
+          className={
+            inter.className +
+            " md:bg-fixed selection:bg-primary-second selection:text-primary-lime-green " +
+            inter.variable
+          }
+        >
           <StyledComponentsRegistry>
+            <Analytics />
             <Navbar_main />
             <div className="container min-h-screen mx-auto font-light ">
               {children}

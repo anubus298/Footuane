@@ -15,7 +15,7 @@ async function Page() {
       {
         method: "GET",
         headers: myHeaders,
-        next: { revalidate: 604800, tags: ["allLeagues"] },
+        next: { revalidate: 86400, tags: ["allLeagues"] },
       }
     );
     let data: AllLeaguesResponse = await res.json();

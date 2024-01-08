@@ -75,7 +75,7 @@ async function Competitions({ params }: { params: { id: number } }) {
       {
         method: "GET",
         headers: myHeaders,
-        cache: "force-cache",
+        next: { revalidate: 3600 },
       }
     );
     let data: fixtureResponse = await res.json();

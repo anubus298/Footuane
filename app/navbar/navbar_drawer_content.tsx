@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Link from "next/link";
 
 function Navbar_drawer_content() {
@@ -9,7 +9,7 @@ function Navbar_drawer_content() {
           <Link href="/"> Home</Link>
         </li>
         <li>
-          <Link href="/matches"> Matches</Link>
+          <Link href="/fixtures">Fixtures</Link>
         </li>
         <li>
           <Link href="/competitions"> Competitions</Link>

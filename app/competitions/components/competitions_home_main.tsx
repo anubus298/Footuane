@@ -81,7 +81,7 @@ function Competitions_home_main({ leagues, countries }: Props) {
         },
       }}
     >
-      <div className="col-span-12 mx-2 text-white md:col-start-3 md:col-end-11 md:mx-0">
+      <div className="col-span-12 mx-2 text-white md:col-start-3 md:col-end-13 md:mx-0">
         <div className="w-full p-3 bg-primary-first bg-opacity-40">
           <h3 className="text-2xl font-semibold text-primary-second">
             Popular
