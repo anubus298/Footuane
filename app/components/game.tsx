@@ -63,7 +63,6 @@ function Game(props: CompProps) {
               className="w-[35px]  cursor-pointer hover:-translate-y-1 transition"
             >
               <Image
-                unoptimized
                 alt={props.fixture.teams.home.name + " logo"}
                 src={props.fixture.teams.home.logo}
                 height={35}
@@ -145,7 +144,6 @@ function Game(props: CompProps) {
               className="w-[35px] cursor-pointer hover:-translate-y-1 transition"
             >
               <Image
-                unoptimized
                 alt={props.fixture.teams.away.name + " logo"}
                 src={props.fixture.teams.away.logo}
                 height={35}

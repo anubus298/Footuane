@@ -46,7 +46,9 @@ function Lineups({
   return (
     <div className="flex flex-col gap-1 px-2 pt-4 text-sm font-light text-white bg-opacity-40 rounded-tr-md bg-primary-first md:text-base">
       <div className="flex justify-center col-span-4 pb-3 font-medium">
-        <p className="text-lg text-center text-primary-second">Teams Composition</p>
+        <p className="text-lg text-center text-primary-second">
+          Teams Composition
+        </p>
       </div>
       <div className="grid grid-cols-4 col-span-4 ">
         <ul className="flex flex-col col-span-2 gap-2 p-2 overflow-hidden pe-2">
@@ -145,8 +147,20 @@ function Lineups({
           </li>
         </ul>
       </div>
-      <FieldPitch list={HomeList} lineup={lineups[0]} isHome={true} />
-      <FieldPitch list={AwayList} lineup={lineups[1]} isHome={false} />
+      <FieldPitch
+        list={HomeList}
+        lineup={lineups[0]}
+        isHome={true}
+        formation={lineups[0].formation}
+        teamLogo={lineups[0].team.logo}
+      />
+      <FieldPitch
+        list={AwayList}
+        lineup={lineups[1]}
+        isHome={false}
+        formation={lineups[1].formation}
+        teamLogo={lineups[1].team.logo}
+      />
     </div>
   );
 }

@@ -33,6 +33,7 @@ export default async function Home() {
     });
     let data: fixtureResponse = await res.json();
     data.response = RemoveLiveMatches(data.response);
+    data.response = RemoveShitLeague(data.response);
     data.response = SortByImportance(data.response);
     return data;
   }
@@ -142,7 +143,7 @@ export function GetDate(minus: number, plus: number) {
   };
 }
 
-function SortByImportance(fixtures: FixtureData[]) {
+export function SortByImportance(fixtures: FixtureData[]) {
   const ids = Object.values(leaguesIds).slice(0, 19);
   const filtered = fixtures.filter((item) => {
     return ids.includes(item.league.id);

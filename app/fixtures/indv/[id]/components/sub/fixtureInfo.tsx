@@ -33,7 +33,7 @@ function FixtureInfo({ fixture }: { fixture: FixtureIndvResponse }) {
           )}
         </div>
         <Link
-          href={`/leagues/indv/${league?.id}`}
+          href={`/competitions/${league?.id}`}
           className="text-xs md:text-base"
         >
           {league?.name} {league?.round}

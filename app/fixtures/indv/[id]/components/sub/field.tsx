@@ -3,14 +3,16 @@ import { TeamFormation } from "@/app/lib/types/fixture/fixtureIndv";
 import { Popover } from "antd";
 import Image from "next/image";
 import Link from "next/link";
-import { useMediaQuery } from 'react-responsive'
+import { useMediaQuery } from "react-responsive";
 import { Mimic } from "./lineups";
 interface Props {
   list: Mimic[][];
   lineup: TeamFormation;
   isHome: boolean;
+  formation: string;
+  teamLogo: string;
 }
-function FieldPitch({ list, lineup, isHome }: Props) {
+function FieldPitch({ list, lineup, isHome, teamLogo, formation }: Props) {
   const isMobileScreen = useMediaQuery({ query: "(max-width: 640px)" });
   return (
     <div
@@ -26,6 +28,24 @@ function FieldPitch({ list, lineup, isHome }: Props) {
             }, minmax(0, 1fr)) minmax(0, 0.66fr)`,
       }}
     >
+      <div
+        className={
+          "absolute z-10 size-[30px] bottom-4 flex items-center gap-1 " +
+          (isHome ? "right-16" : "left-4")
+        }
+      >
+        {!isHome ? (
+          <>
+            <Image src={teamLogo} height={30} width={30} alt="" />
+            <p className="font-semibold">{formation}</p>
+          </>
+        ) : (
+          <>
+            <p className="font-semibold">{formation}</p>
+            <Image src={teamLogo} height={30} width={30} alt="" />
+          </>
+        )}
+      </div>
       <>
         {!isHome && (
           <div className="z-10 flex flex-col col-span-1 justify-evenly"></div>
@@ -52,7 +72,6 @@ function FieldPitch({ list, lineup, isHome }: Props) {
 
         <Image
           src={"/field.svg"}
-          quality={100}
           fill
           style={{
             objectFit: "cover",

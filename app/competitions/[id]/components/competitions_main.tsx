@@ -15,11 +15,9 @@ interface Props {
   latestRound?: string;
   rounds?: string[];
   topAssists?: TopResponse;
-  coverage: any;
 }
 function Competitions_main({
   leagueId,
-  coverage,
   standings,
   topScorers,
   topAssists,
@@ -37,7 +35,7 @@ function Competitions_main({
           latestRound={latestRound}
         />
       )}
-      <div className="w-full mb-4">
+      <div className="w-full mb-4 ">
         {standings?.response?.[0]?.league?.standings?.length === 1 && (
           <h3 className="mb-4 text-3xl font-semibold text-primary-second">
             Current Standings
@@ -84,7 +82,7 @@ function CompetitionInfo(
   standings: StandingsResponse | undefined
 ) {
   return (
-    <div className="grid w-full grid-cols-12 grid-rows-2 py-6 mb-2 bg-primary-first bg-opacity-40 md:grid-rows-1">
+    <div className="grid w-full grid-cols-12 grid-rows-2 py-6 mb-2 bg-primary-first bg-opacity-40 md:grid-rows-1 rounded-tr-md">
       <div className="flex flex-col items-center justify-center col-span-6 row-start-2 row-end-3 md:row-start-1 md:row-end-2 md:col-span-3">
         <p className="text-lg font-normal">Current Round :</p>
         <p className="font-light ">{latestRound}</p>

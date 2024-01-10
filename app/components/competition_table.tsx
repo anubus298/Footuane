@@ -48,7 +48,6 @@ function Competition_table(props: Props) {
             className="flex items-center gap-2"
           >
             <Image
-              unoptimized
               src={team.team.logo}
               alt={team.team.name + " logo"}
               height={30}

@@ -37,7 +37,9 @@ async function Page() {
       },
     });
     let data: fixtureResponse = await res.json();
+
     data.response = RemoveShitLeague(data.response);
+    data.response = SortByImportance(data.response);
     let stackedPerLeague: any = {};
     data.response.forEach((fixture) => {
       stackedPerLeague[fixture.league.name]
@@ -58,4 +60,10 @@ async function Page() {
   );
 }
 
+export function SortByImportance(fixtures: FixtureData[]) {
+  const sorted = fixtures.sort((a, b) => {
+    return a.league.id - b.league.id;
+  });
+  return sorted;
+}
 export default Page;

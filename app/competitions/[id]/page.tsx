@@ -114,7 +114,6 @@ async function Competitions({ params }: { params: { id: number } }) {
   return (
     <Competitions_main
       leagueId={params.id}
-      coverage={coverage}
       latestRound={CurrentRound?.league.round}
       rounds={rounds}
       fixtures={fixtures}

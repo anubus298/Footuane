@@ -16,6 +16,7 @@ import React from "react";
 
 interface MainProps {
   fixtures?: FixtureData[];
+  href: string;
   type: string;
   result?: FixtureData[];
   direction: string;
@@ -130,7 +131,7 @@ function GamesTable(props: MainProps) {
                 ))}
               </Swiper>
               <Link
-                href=""
+                href={"/fixtures/#" + props.href}
                 className="flex items-center gap-2 mt-2 uppercase text-primary-second"
               >
                 <p>{isLeftDirection ? "View more" : "View more"}</p>
@@ -147,10 +148,13 @@ function GamesTable(props: MainProps) {
           className={`flex items-center justify-center col-span-2 py-2 md:py-4`}
         >
           {props.standings?.standings && (
-            <CompetitionTable type="cut" standings={props.standings?.standings} />
+            <CompetitionTable
+              type="cut"
+              standings={props.standings?.standings}
+            />
           )}
           {props.topScorers && (
-            <TopScorersTable topScorers={props.topScorers} type="cut"/>
+            <TopScorersTable topScorers={props.topScorers} type="cut" />
           )}
         </div>
       </div>

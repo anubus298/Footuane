@@ -20,7 +20,7 @@ function Navbar_Main() {
     home: "Home",
     fixtures: "fixtures",
     competitions: "Competitions",
-    teams: "Teams",
+    teams: "/",
   };
   const [ReferenceClass, setReferenceClass] = useState(
     Object.values(list).map(() => false)

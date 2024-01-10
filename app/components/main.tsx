@@ -18,7 +18,7 @@ interface Props {
 function Main(props: Props) {
   return (
     <div className="w-full mt-4">
-      <div className="flex flex-col items-center justify-center w-full overflow-hidden select-none h-96">
+      <div className="flex flex-col items-center justify-center w-full h-[90vh] overflow-hidden select-none">
         <h1 className="font-extrabold text-7xl md:text-9xl text-primary-second ">
           FOOTUANE
         </h1>
@@ -28,6 +28,7 @@ function Main(props: Props) {
       </div>
       <Highlights videos={props?.videos?.response} />
       <Games_table
+        href={"live"}
         fixtures={props?.live?.response}
         direction="left"
         type="live"
@@ -38,12 +39,14 @@ function Main(props: Props) {
         }}
       />
       <Games_table
+        href={"tomorrow"}
         direction="left"
         fixtures={props?.fixtures_upcoming?.response}
         type="Upcoming"
         topScorers={props?.topScorers?.response}
       />
       <Games_table
+        href={"yesterday"}
         direction="left"
         fixtures={props?.fixtures?.response}
         type="Past"
