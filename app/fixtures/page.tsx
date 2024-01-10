@@ -60,7 +60,7 @@ async function Page() {
   );
 }
 
-export function SortByImportance(fixtures: FixtureData[]) {
+function SortByImportance(fixtures: FixtureData[]) {
   const sorted = fixtures.sort((a, b) => {
     return a.league.id - b.league.id;
   });
